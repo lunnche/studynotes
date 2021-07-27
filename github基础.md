@@ -1338,3 +1338,19 @@ GitHub 端远程仓库中的 feature-D 分支是最新状态，所以本地仓�
 
 3 tryGit http://try.github.io/  在Web上一边操作一边学习Git的基本功能。（无中文）
 
+***
+
+# 提升git clone速度
+
+使用国内镜像，目前已知Github国内镜像网站有github.com.cnpmjs.org和git.sdut.me/。速度根据各地情况而定，在clone某个项目的时候将github.com替换为github.com.cnpmjs.org即可。
+
+//这是我们要clone的
+git clone https://github.com/Hackergeek/architecture-samples
+
+//使用镜像
+git clone https://github.com.cnpmjs.org/Hackergeek/architecture-samples
+
+//或者
+
+//使用镜像
+git clone https://git.sdut.me/Hackergeek/architecture-samples
