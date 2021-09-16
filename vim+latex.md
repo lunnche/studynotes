@@ -28,6 +28,38 @@ let g:tex_conceal='abdmg'
 
 例如`\[`，`\]`，$将变为不可见。`\bigcap`将变为∩，`\in`变成∈。（需要在.tex之类文件中才能生效）
 
+> 安装vimtex插件，在vim里适用：PlugInstall时报错` OpenSSL SSL_connect: Connection reset by peer in connection to github.com:443`
+>
+> 解决办法：
+>
+> 我开了VPN，出错是因为代理问题，设置下proxy就可以了，
+>
+> 查看自己的VPN端口号，我的端口号是1080，在git bash命令行中输入一下命令即可
+>
+> ```
+> $ git config --global http.proxy 127.0.0.1:1080
+> $ git config --global https.proxy 127.0.0.1:1080
+> ```
+>
+> 到此即可
+>
+> 题外话：
+>
+> 如果之前git中设置过上述配置，则适用如下命令取消后再进行配置即可：
+>
+> ```
+> git config --global --unset http.proxy
+> git config --global --unset https.proxy
+> ```
+>
+> 下面是几个常用的git配置查看命令：
+>
+> ```
+> git config --global http.proxy #查看git的http代理配置
+> git config --global https.proxy #查看git的https代理配置
+> git config --global -1 #查看git的所有配置
+> ```
+
 #### Snippets
 
 短小可复用的文本，输入后按Tab转成其他预设文本。
