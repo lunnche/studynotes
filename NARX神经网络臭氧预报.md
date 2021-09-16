@@ -37,7 +37,7 @@
 
 ## 1.3 系统论与控制论中的白灰黑箱概念
 
-![image-20210707155419240](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210707155419240.png)
+![image-20210916162803780](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916162803780.png)
 
 * 白箱：完全了解和理解内部运作机制和动力学的系统（适合数值模型建模）
 * 黑箱：完全不了解……（尝试转换为灰箱建模）
@@ -49,11 +49,9 @@
 
 * 人工神经网络的最大优势在于模式识别和预测
 
-![image-20210707162313710](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210707162313710.png)
+![image-20210916162851095](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916162851095.png)
 
-
-
-![image-20210712144848999](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712144848999.png)
+![image-20210916162930984](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916162930984.png)
 
 * 宇宙网络与人脑神经网络
 
@@ -77,15 +75,15 @@
 
   一般认为，随时间而变化的工程、物理、化学、生物、电磁、甚至天体、地质系统都可称为动力系统。如果这些变化是用非线性方程（常微分方程，偏微分方程，代数方程）描述，则称为非线性动力系统。非线性方程求解方法远没有线性方程那样完善，所以非线性动力学的发展较晚。
 
-  ![image-20210712153836800](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712153836800.png)
+  ![image-20210916163008027](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163008027.png)
 
   一个非线性动力系统的例子，人类向外星发送信息，信息按二进制排列可显示有关人类的诸多信息。
 
-  ![image-20210712154414797](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712154414797.png)
+  ![image-20210916163124064](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163124064.png)
 
   非线性动力系统例子，外星人发来的文字图片，用计算机视觉的卷积神经网络识别。
 
-  ![image-20210712155559663](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712155559663.png)
+  ![image-20210916163149194](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163149194.png)
 
   简单的线性动力系统：
 
@@ -93,15 +91,15 @@
 
   右边：x×2+1得到y  
 
-  ![image-20210712155853097](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712155853097.png)
+  ![image-20210916163212641](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163212641.png)
 
   一下子看不出来，解方程可得一个二次方程，这是个典型的非线性动力系统
 
-  ![image-20210712160006741](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712160006741.png)
+  ![image-20210916163301356](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163301356.png)
 
   ## 2.2 多项式--非线性动力学系统的数学描述方法
 
-  ![image-20210712160223800](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210712160223800.png)
+  ![image-20210916163321660](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163321660.png)
 
   * 一种简单的描述非线性动力系统的方法--多项式
 
@@ -119,7 +117,7 @@
 
   ## 2.3 一个理想化的生物神经元模型和数学算法仿真模型
 
-  ![image-20210713083442104](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713083442104.png)
+  ![image-20210916163349623](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163349623.png)
 
   神经元结构：
 
@@ -133,21 +131,21 @@
   * 髓鞘（Myelin sheath）：增加信号的传输速度
   * 轴突末梢：连接下级神经元
 
-  ![image-20210713084639632](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713084639632.png)
+  ![image-20210916163412351](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163412351.png)
 
   * 突触：上级神经元轴突末梢-（连接）-下级神经元树突 的地方
   * 膨大的地方叫突触柄，里面有突触囊泡（里边是神经递质）、线粒体
   * 下级神经元的树突和上级神经元的突触部位有一些受体，接收囊泡破裂后传出的神经递质
 
-  ![image-20210713090051635](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713090051635.png)
+  ![image-20210916163435266](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163435266.png)
 
   上图为经过简化的人脑思维判断过程的生物神经元模型
 
-  ![image-20210713091422001](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713091422001.png)
+  ![image-20210916163458764](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163458764.png)
 
   第一个神经元接收四种x信号并传给第二个神经元，第二个神经元叠加处理各种信号并传给第三个神经元，第三个神经元算出y，识别出能否通过交通灯，传递给运动神经
 
-  ![image-20210713091639638](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713091639638.png)
+  ![image-20210916163520492](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163520492.png)
 
   左边是神经元的生物模型，右边是数学模型
 
@@ -155,7 +153,7 @@
 
   ## 2.4 ANN的工作原理
 
-  ![image-20210713092250231](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713092250231.png)
+  ![image-20210916163546890](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163546890.png)
 
   人工智能需要深厚数学功底，但如果只是应用，而非研究算法，并没有那么难。
 
@@ -171,19 +169,19 @@
 
   ## 2.6 ANN的工作原理
 
-  ![image-20210713111631996](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713111631996.png)
+  ![image-20210916163609315](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163609315.png)
 
   阈值型激活函数
 
-  ![image-20210713111703312](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713111703312.png)
+  ![image-20210916163627431](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163627431.png)
 
   分段线性激活函数  和  纯线性激活函数
 
-  ![image-20210713112115584](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210713112115584.png)
+  ![image-20210916163651426](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163651426.png)
 
   单极性S型激活函数 和 双极性S型激活函数
 
-  ![image-20210714141124460](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210714141124460.png)
+  ![image-20210916163731449](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163731449.png)
 
   一个简单的BP神经网络
 
@@ -193,7 +191,7 @@
 
   最后一层的值与样本相减，求出误差，如果误差超出理想范围，则反向传输误差，以使得每一个神经元重新调节其权值和阈值，这种调节是按步长和学习速率事先定义好的。
 
-  ![image-20210714143012287](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210714143012287.png)
+  ![image-20210916163853836](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163853836.png)
 
   若有m个输入，n个神经元，那么上图中就有m×n个曲面
 
@@ -203,7 +201,7 @@
 
   最小误差点有很多，即神经网络的模型不是唯一的
 
-  ![image-20210714144030385](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210714144030385.png)
+  ![image-20210916163929248](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163929248.png)
 
   上图隐藏层传递函数默认用tansig
 
@@ -220,11 +218,11 @@
 
   ## 2.8 ANN的开发平台
 
-  ![image-20210714155131343](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210714155131343.png)
+  ![image-20210916163957893](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916163957893.png)
 
 # 3.NARX神经网络基本原理
 
-![image-20210714155735066](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210714155735066.png)
+![image-20210916164033695](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164033695.png)
 
 narxnet（Nonlinear Autoregressive Time series Network with External Input）是动态时序网络最重要的解决方案之一，通过给定的历史时间序列来学习预测另一段时间的同样序列。反馈输入、另一段时间序列称为外部或外生（Exogenous）时间序列。
 
@@ -287,7 +285,7 @@ Ai：（被提出的）初始层间延迟，为元胞数组
 
 ## 3.4 NARX神经网络的拓扑结构
 
-![image-20210715084820499](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210715084820499.png)
+![image-20210916164113554](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164113554.png)
 
 # 4.环境科学中常用数据预处理技术
 
@@ -313,7 +311,7 @@ Ai：（被提出的）初始层间延迟，为元胞数组
 
   ​		Forward Feature Construction（前向特征构建）
 
-![image-20210715085257381](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210715085257381.png)
+![image-20210916164156865](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164156865.png)
 
 自动监测站标记的无效数据等需要剔除
 
@@ -333,7 +331,7 @@ PCA基本技术步骤：
 > 4. 将特征值按照从大到小的顺序排序，得到特征向量矩阵。
 > 5. 将样本点投影到选取的特征向量上，就得到主成分矩阵，新的主成分按贡献率（方差大小）顺序按列排列。
 
-![image-20210715102624894](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210715102624894.png)
+![image-20210916164229119](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164229119.png)
 
 PCA的SPSS实现
 
@@ -386,7 +384,7 @@ explained：每一个主成分解释了对总方差贡献的百分比
 >
 > 7 求解；
 
-![image-20210715110804500](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210715110804500.png)
+![image-20210916164254155](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164254155.png)
 
 验证样本也称为外侧样本
 
@@ -448,7 +446,7 @@ O~3~前体物主要为工业源、交通源、自然源（植物）排放的VOCs
 
 为建立模型，收集到昆明某VOC站的气象及空气质量常规、VOC~s~，以及直线距离约3km处的国家气象基准站紫外线能量数据。
 
-![image-20210716103141948](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716103141948.png)
+![image-20210916164322484](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164322484.png)
 
 VOC~s~有上述类别
 
@@ -456,37 +454,37 @@ VOC~s~有上述类别
 
 日期、时间2项外，还有：UVA、UVB、UVI、Volt 4项，单位分别为：W/m^2^、W/m^2^、无量纲、mv
 
-![image-20210716103716349](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716103716349.png)
+![image-20210916164356124](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164356124.png)
 
 上述为数据的时间范围
 
-![image-20210716103909054](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716103909054.png)
+![image-20210916164417860](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164417860.png)
 
 收集到的数据有很多问题，需要处理
 
 ## 6.2 数据结构
 
-![image-20210716104320828](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716104320828.png)
+![image-20210916164438887](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164438887.png)
 
 ## 6.3 问题提出及建模规划
 
-![image-20210716104656848](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716104656848.png)
+![image-20210916164459413](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164459413.png)
 
 常规气象里把风速、风向扔掉？why？
 
 ## 6.4 样本规划
 
-![image-20210716110207420](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716110207420.png)
+![image-20210916164517312](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164517312.png)
 
 真正O~3~高浓度的样本只有5天共120个小时？ 
 
-![image-20210716110613376](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716110613376.png)
+![image-20210916164538798](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164538798.png)
 
-![image-20210716110808188](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716110808188.png)
+![image-20210916164603177](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164603177.png)
 
 ## 6.5 数据取舍和预处理
 
-![image-20210716111020545](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210716111020545.png)
+![image-20210916164625800](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164625800.png)
 
 ## 6.6 网络选型及超参选取
 
@@ -573,9 +571,9 @@ y2mc=net_lsa(Xs_lsa,          Xi_lsa,     Ai_lsa);
 
 ## 6.8 误差评价
 
-![image-20210719145907526](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210719145907526.png)
+![image-20210916164650309](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164650309.png)
 
-![image-20210719150040741](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210719150040741.png)
+![image-20210916164708869](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164708869.png)
 
 ## 6.9 结论和讨论
 
@@ -593,7 +591,7 @@ trainbr（贝叶斯正则化）网络泛化能力明显比trainlm好
 
 若有条件，本模型可进一步优化扩展：除了时间序列外，可加入空间序列，尤其是上风向站点的气象空气质量紫外线等信息，并根据风向、风速的变化动态更新空间序列数据，这样建立的模型，其实是数值模型和统计模型的混合模型。
 
-![image-20210719153150230](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210719153150230.png)
+![image-20210916164731463](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916164731463.png)
 
 
 
