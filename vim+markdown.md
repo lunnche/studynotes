@@ -1004,7 +1004,7 @@ endsnippet
 
 
 
-markdown 图床 用picgo
+markdown 图床 用picgo (windows下设置)
 
 picgo设置
 
@@ -1048,6 +1048,10 @@ PicGo路径 。。
 $ sudo apt-get install nodejs npm
 $ sudo npm install picgo -g
 ```
+
+然后 输入`which picgo`可确认picgo的安装路径。
+
+
 
 #### 选择图床
 
@@ -1109,5 +1113,56 @@ GitHub已不允许密码访问，要用令牌
 > > # Set the cache to timeout after 1 hour (setting is in seconds)
 > > ```
 
+#### 配置picgo
 
+```
+$ picgo set uploader
+? Choose a(n) uploader (Use arrow keys)
+> smms
+  tcyun
+  github
+  qiniu
+  imgur
+  aliyun
+  upyun
+```
 
+选择github，
+
+```
+"repo": "lunnche/picgo-image",
+"branch": "main",
+"token": "你的token",
+"path": "",           空着
+"customUrl": ""       空着
+```
+
+选了github后，config.json里图床还是smms没有变，手动去改下~/.picgo/config.json
+
+#### 配置Typora
+
+picgo.AppImage里设置（这一步好像不做也行，用的picgo-core）
+
+* 打开更新助手 开
+* 开机自启 开
+* 时间戳重命名 开
+* 上传后自动复制URL 开
+* 选择显示的图床 GitHub图床
+
+然后markdown里设置
+
+图像
+
+插入图片时
+
+上传图片
+
+对本地位置的图片应用上述规则  √
+
+对网络位置的图片应用上述规则 √
+
+插入时自动转义图片URL √
+
+上传服务 (Image Uploader)选择"Custom Command"
+
+command 输入 `[your node path][your picgo-core path ] upload`  可用命令`which picgo`查前面的路径，我的是`/usr/local/bin/picgo upload` ,如果你的“node”和“picgo”都在系统路径里，那么command可直接输入“picgo upload”
