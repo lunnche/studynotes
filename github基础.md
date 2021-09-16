@@ -68,13 +68,13 @@ Git属于分散型版本管理系统，是为版本管理而设计的软件。
 
 以Subversion为代表的集中型，将仓库集中存放在服务器中，所以只存在一个仓库。
 
-![image-20210720101851287](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210720101851287.png)
+![image-20210916161126366](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916161126366.png)
 
 集中型便于管理，但一旦开发者所处环境不能连接服务器，就无法获取最新代码。
 
 以Git为代表的分散型，将仓库Fork给每一个用户。Fork就是将GitHub的某个特定仓库复制到自己的账户下。Fork出的仓库与原仓库是两个不同的仓库，开发者可以随意编辑。
 
-![image-20210720102253142](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210720102253142.png)
+![image-20210916161159082](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916161159082.png)
 
 分散型拥有多个仓库，相对而言稍显复杂。不过，由于本地的开发环境中就有仓库，所以开发者不必连接远程仓库就可以进行开发。所有仓库之间都可以进行push和pull。即便不通过Github，开发者A也可以直接向开发者B的仓库进行push和pull。
 
@@ -209,7 +209,7 @@ GitHub Flavored Markdown：在GitHub上进行交流时用到的Issue、评论、
 
 将已有仓库clone到身边的开发环境中。clone路径如图：
 
-![image-20210720141651334](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210720141651334.png)
+![image-20210916161241039](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916161241039.png)
 
 ```
 $ git clone git@github.com:hirocastest/Hello-World.git
@@ -586,7 +586,7 @@ and then push using the remote name
 
 并行开发时，同时存在多个最新代码状态。如图，从master分支创建feature-A分支和fix-B分支后，每个分支都拥有自己的最新代码。master 分支是Git默认创建的分支，因此基本上所有开发都是以这个分支为中心进行的。
 
-![image-20210721142246768](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210721142246768.png)
+![image-20210916161327346](https://raw.githubusercontent.com/lunnche/picgo-image/main/image-20210916161327346.png)
 
 不同分支，可以同时进行完全不同的作业。等该分支作业完成之后再与master分支合并。
 
