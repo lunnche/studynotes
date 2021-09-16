@@ -1,5 +1,10 @@
 ## vim+latex
 
+测试LaTeX语法的网站 https://latex.codecogs.com/eqneditor/editor.php
+
+一份（不太）简短的LaTeX 介绍
+https://github.com/CTeX-org/lshort-zh-cn
+
 画图用Inkscape
 
 屏幕布局：左边vim，右边pdf viewer（Zathura）
@@ -327,4 +332,75 @@ endsnippet
 set rtp+=~/current_course
 ```
 
-`current_course`是一个symlink，连接到我当前激活的course，在那个文件夹中，我有个文件`~/current_course/UltiSnips/tex.snippets`其中包含了course specific snippets。比如
+`current_course`是一个symlink，连接到我当前激活的course，在那个文件夹中，我有个文件`~/current_course/UltiSnips/tex.snippets`其中包含了course specific snippets。比如，对于量子物理，有适用于bra/ket记法的snippets.
+
+```
+<a|	→	\bra{a}
+<q|	→	\bra{\psi}
+|a>	→	\ket{a}
+|q>	→	\ket{\psi}
+<a|b>	→	\braket{a}{b}
+```
+
+由于`\psi`在量子物理里使用很多，把所有带尖括号的q转化为`\psi`
+
+```snip
+snippet "\<(.*?)\|" "bra" riA
+\bra{`!p snip.rv = match.group(1).replace('q', f'\psi').replace('f', f'\phi')`}
+endsnippet
+
+snippet "\|(.*?)\>" "ket" riA
+\ket{`!p snip.rv = match.group(1).replace('q', f'\psi').replace('f', f'\phi')`}
+endsnippet
+
+snippet "(.*)\\bra{(.*?)}([^\|]*?)\>" "braket" riA
+`!p snip.rv = match.group(1)`\braket{`!p snip.rv = match.group(2)`}{`!p snip.rv = match.group(3).replace('q', f'\psi').replace('f', f'\phi')`}
+endsnippet
+```
+
+#### Context
+
+单词disregard中的sr不该被转换为`^2`,从而输`dis^2egard`
+
+解决方法是为snippets添加context，利用Vim的语法高亮，它能决定依据对象是数学还是文本，UltiSnips是否该转换snippet，把下面这段代码加到你snippets文件的最前面：
+
+```python
+global !p
+def math():
+    return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+
+def comment(): 
+    return vim.eval('vimtex#syntax#in_comment()') == '1'
+
+def env(name):
+    [x,y] = vim.eval("vimtex#env#is_inside('" + name + "')") 
+    return x != '0' and x != '0'
+
+endglobal
+```
+
+现在你可以把`context "math()"`加入snippets, 你只想在数学上下文环境中转换`sr`为`^2`
+
+```snip
+context "math()"
+snippet sr "^2" iA
+^2
+endsnippet
+```
+
+mathematical context是个微妙的东西。Some­times you add some text in­side a math en­vi­ron­ment by using `\text{...}`. In that case, you do not want snip­pets to ex­pand. How­ev­er, in the fol­low­ing case: `\[ \text{$...$} \]`, they *should* ex­pand.
+
+Sim­i­lar­ly, you can add `context "env('itemize')"` to snip­pets that only should ex­pand in an `itemize` en­vi­ron­ment or `context "comment()"` for snip­pets in com­ments.
+
+#### Correcting spelling mistakes on the fly
+
+更正拼写错误而不打断工作流。打字时按`Ctrl+L`，之前的拼写错误就会被自动更正
+
+```vim
+setlocal spell
+set spelllang=nl,en_gb
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+```
+
+It ba­si­cal­ly jumps to the pre­vi­ous spelling mis­take `[s`, then picks the first sug­ges­tion `1z=`, and then jumps back ``]a`. The `<c-g>u` in the mid­dle make it pos­si­ble to undo the spelling cor­rec­tion quick­ly.
+
