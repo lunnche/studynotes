@@ -1354,3 +1354,58 @@ git clone https://github.com.cnpmjs.org/Hackergeek/architecture-samples
 
 //使用镜像
 git clone https://git.sdut.me/Hackergeek/architecture-samples
+
+
+
+**注意**
+
+GitHub已不允许密码访问，要用令牌
+
+创建令牌的方式：
+
+* 单击个人资料照片，然后单击Settings
+* 左侧栏选Developer settings
+* 左侧栏选Personal access tokens（个人访问令牌）
+* 单击Generate new token
+* 给令牌一个描述性名称
+* 选择要授予此令牌的作用域或权限。要使用令牌从命令行访问仓库，选择repo
+* 单击Generate token
+* 复制令牌，处于安全原因，离开页面后，将无法再次看到令牌。
+
+**警告** ：像对待密码一样对待令牌确保机密性。使用API时，应将令牌用作环境变量，而不是将其硬编码到程序中。
+
+* 在命令行上使用令牌
+
+> 如果有令牌，则可以在通过HTTPS执行Git操作时输入令牌，而不是密码。
+>
+> 例如，在命令行中输入以下内容：
+>
+> ```
+> $ git clone https://github.com/username/repo.git
+> Username:your_username
+> Password:your_token
+> ```
+>
+> * 个人令牌只能用于HTTPS Git操作。如果你的仓库使用SSH远程URL，则需要将远程URL从SSH切换到HTTPS。
+>
+> * 如果没有提示输入用户名和密码，说明你的凭据可能已缓存在计算机上。可以在密钥链中更新你的凭据，用令牌替换你的旧密码。
+> * 可以使用Git客户端缓存PAT，而不必为每个HTTPS Git操作手动输入PAT。Git会将你的凭据临时存储在内存中，直到过期为止。还可以将令牌存储在Git可以在每个请求之前读取的纯文本文件中
+>
+> > ##### 在Git中缓存GitHub凭据
+> >
+> > 如果使用SSH克隆GitHub仓库，则可使用SSH密钥进行身份验证。开启凭据小助手使Git将你的密码在内存中保存一段时间。默认情况下，Git会缓存密码15分钟。
+> >
+> > 1 在终端，输入以下命令
+> >
+> > ```
+> > $ git config --global credential.helper cache
+> > # set git to use the credential memory cache
+> > ```
+> >
+> > 2 要更改默认的密码缓存时限，输入以下命令：
+> >
+> > ```
+> > $ git config --global credential.helper 'cache --timeout=3600'
+> > # Set the cache to timeout after 1 hour (setting is in seconds)
+> > ```
+
