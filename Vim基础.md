@@ -3095,7 +3095,7 @@ if !has('nvim')
   set backspace=indent,eol,start               "现代编辑器的退格键行为
   set belloff=all                              "禁用错误报警声
   set cscopeverbose                            "详细输出cscope结果
-  set comlete-=i                               "补全时，不要对当前被包含的文件进行扫描
+  set complete-=i                               "补全时，不要对当前被包含的文件进行扫描
   set display=lastline,msgsep                  "显示更多消息文本
   set encoding=utf-8                           "设置默认编码
   set fillchars=vert:|,fold:                   "分隔字符
@@ -3123,6 +3123,8 @@ if !has('nvim')
 endif
   
 ```
+
+set fillchars=vert:|,fold:  这个设置在nvim里有问题
 
 以上注释较简短，更多信息查看响应:help
 
