@@ -3028,6 +3028,143 @@ Vim通过:substitute命令实现搜索和替换功能，大部分时候都会将
 
 差不多到这行了
 
+还不行，vim的markdown preview不更新了
+
+还是用neovim好
+
+## Neovim
+
+安装方法可在GitHub仓库neovim/neovim中找到。
+
+对于Debian系Linux，可
+
+```
+sudo apt-get install neovim  "安装
+Python3 -m pip install neovim "实现Neovim对Python3的支持
+```
+
+Neovim启动命令为`nvim`
+
+Neovim的配置文件格式和vim相同，不过.vimrc在Neovim中不会自动加载。
+
+Neovim的配置文件遵守XDG基本目录结构，即所有的配置文件都放在\~/.config目录中。Neovim配置文件被保存在~/.config/nvim中。
+
+* ~/.config/nvim/init.vim 对应于 ~/.vimrc
+* ~/.config/nvim/对应与 ~/.vim
+
+可以直接将Neovim的配置文件链接到Vim的配置文件。
+
+```
+$ mkdir -p $HOME/.config
+$ ln -s $HOME/.vim $HOME/.config/nvim
+$ ln -s $HOME/.vimrc $HOME/.config/nvim/init.vim
+```
+
+做好上述软连接后，Neovim就 可以加载原来的.vimrc文件了。
+
+Windows系统中，Neovim的配置文件一般位于C:\Users\%USERNAME%\AppData\Local\nvim目录中。也可以像Linux中那样建立软连接。
+
+```
+$ mklink /D %USERPROFILE%\AppData\Local\nvim %USERPROFILE%\vimfiles
+$ mklink %USERPROFILE%\AppData\Local\nvim\init.vim %USERPROFILE%\_vimrc
+```
+
+### 检查健康状态
+
+Neovim欢迎界面中，会提示用户运行:checkhealth命令。
+
+健康检查会汇报当前Neovim设置中的所有错误，并给出修复建议。
+
+相比于Vim，Neovim有一个 非常好的特性，即启用某个功能或选项时不需要重新编译。
+
+### 合理的默认选项
+
+Neovim的默认选项与Vim有很大的不同。在现代的计算机世界里，文本编辑器的默认值需要对用户比较友好。默认情况下的Vim的.vimrc文件并不包含任何默认设置，而Neovim默认已经设置好语法高亮、合理的缩进设置、wildmenu、高亮显示搜索结果和增量搜索(insearch)等。
+
+可通过查看:help nvim-defaults了解Neovim的默认选项。
+
+如果想要同步Vim和Neovim的配置文件，最好在~/.vimrc中加入如下设置（然后再将其连接为~/.config/nvim/init.vim）
+
+```
+if !has('nvim')
+  set nocompatible                             "与Vi不兼容
+  filetype plugin indent on                    "对现在的插件是必须的
+  syntax on                                    "语法高亮
+  set autoindent                               "沿用上一行缩进
+  set autoread                                 "从磁盘自动重载文件
+  set backspace=indent,eol,start               "现代编辑器的退格键行为
+  set belloff=all                              "禁用错误报警声
+  set cscopeverbose                            "详细输出cscope结果
+  set comlete-=i                               "补全时，不要对当前被包含的文件进行扫描
+  set display=lastline,msgsep                  "显示更多消息文本
+  set encoding=utf-8                           "设置默认编码
+  set fillchars=vert:|,fold:                   "分隔字符
+  set formatoptions=tcqj                       "更直观的自动格式化
+  set fsync                                    "调用fsync()实现更健壮的文件保存
+  set history=10000                            "最大的历史记录数
+  set hlsearch                                 "搜索结果高亮显示
+  set incsearch                                "搜索时边输入边搜索、并移动光标
+  set langnoremap                              "避免出现映射崩溃的情况
+  set laststatus=2                             "总是显示状态栏
+  set listchars=tab:>\,trail:-,nbsp:+          ":list时一些特殊字符的显示
+  set nrformats=bin,hex                        "对<c-a>和<c-x>的支持
+  set ruler                                    "在状态栏角落里显示当前行位置信息
+  set sessionoptions-=options                  "不同会话不共享选项
+  set shortmess=F                              "文件信息少显示一些
+  set showcmd                                  "在状态栏中显示最后一条命令
+  set sidescroll=1                             "更平滑的侧边滚动条
+  set smarttab                                 "更只能的<Tab>键响应方式
+  set tabpagemax=50                            "-p选项能够打开的最大数目的标签页
+  set tags=./tags;,tags                        "用于搜索标签的那些文件名
+  set ttimeoutlen=50                           "按键序列中等待下一个的时间，单位为毫秒
+  set ttyfast                                  "要求实现快速的终端连接
+  set viminfo+=!                               "为多个会话保存全局变量
+  set wildmenu                                 "增强命令行补全功能
+endif
+  
+```
+
+以上注释较简短，更多信息查看响应:help
+
+#### Oni
+
+Oni是基于Neovim实现的跨平台图形用户界面编辑器，GitHub仓库为onivim/oni。
+
+该编辑器为Neovim增加了集成开发环境（IDE）的功能，包括
+
+* 内置浏览器
+* 原生支持的自动补全和模糊搜索
+* 一个命令菜单
+* 多种教程
+* 明显提升用户体验的其他功能
+* 沿用Neovim的配置文件和键盘绑定
+
+内置浏览器界面打开方式：  用`Ctrl+Shift+p`组合键打开命令菜单，再输入Browser
+
+Oni完美继承了Vim的精髓，可以完全实现无鼠标操作（按`Ctrl+g`组合键再输入屏幕上提示的按键，可以访问页面上的任意元素）
+
+#### Neovim高亮显示插件
+
+Neovim大体上和Vim后向兼容，并且支持很多Vim插件（Powerline不支持）
+
+不过，Neovim原生支持异步插件，并且提供了一些对开发者友好的功能，所以有很多插件只能在Neovim中运行。
+
+下列插件（除了NyaoVim）可以移植到Vim中
+
+* Dein(GitHub仓库Shougo/dein.vim)是一个异步插件管理器，类似于vim-plug。
+* Denite（GitHub仓库为Shougo/denite.nvim）是一个模糊搜索插件，搜索范围广，包括缓冲区、当前文件中的行，甚至还可以是色调（基本是一个无所不能的CtrlP）。比如，可在当前文件中搜索关键字所在行号。
+* NyaoVim（GitHub仓库rhysd/NyaoVim）是Neovim的一个跨平台的基于网络组件的图形界面插件。它的主要优点是可以将易于扩展和添加新的用户界面插件作为网络组件。
+* Neomake（GitHub仓库neomake/neomake）是一个异步的语法检查器和编译器，它提供了一个针对不同文件类型的异步命令:Neomake。
+* Neoterm（GitHub仓库kassio/neoterm）扩展了Vim/Neovim的终端功能,让它们更容易地在已有终端中运行命令。
+* NCM2（GitHub仓库ncm2/ncm2）是Vim/Neovim的一个强大且可扩展的代码补全框架。
+* gen_tags（GitHub仓库jsfaint/gen_tags.vim）是一个异步ctags/gtags生成器。gtags比ctags稍微强大一些，但支持的语言种类较少。
+
+## 为什么用Neovim
+
+* 使Vim代码库更容易管理
+* 使用户和开发者更容易地添加功能和编写插件
+* 鼓励外部应用程序与Neovim的整合
+
 
 
 
