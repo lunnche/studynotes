@@ -202,7 +202,60 @@ let g:UltiSnipsEditSplit="vertical"
 
 在使用 **vim-plug** 安装完 **ultisnips** 之后，可以在插件安装路径下找到文件夹 **ultisnips**。
 
-按教材内容在ultisnips文件夹内新建Ultisnips文件夹,然后把markdown.snippets建在这里就能用，但我的机器不能用，我的机器智能识别ultisnips/snippets/中的markdown.snippets，但这样会导致如果在snippets中用了Python(开头引入global !p)就会报错，Ultisnips插件开发者在GitHub中issues中生命，不建议把markdown.snippets放在snippets文件夹中，因为这是为snipMate设置的引用方式，会出错。总之不推荐的方法我的电脑能行但不能在snippets中用python，推荐的方法我的电脑识别不了。转去尝试在windows上用Neovim
+按教材内容在ultisnips文件夹内新建Ultisnips文件夹,然后把markdown.snippets建在这里就能用，但我的机器不能用，我的机器智能识别ultisnips/snippets/中的markdown.snippets，但这样会导致如果在snippets中用了Python(开头引入global !p)就会报错，Ultisnips插件开发者在GitHub中issues中生命，不建议把markdown.snippets放在snippets文件夹中，因为这是为snipMate设置的引用方式，会出错。总之不推荐的方法我的电脑能行但不能在snippets中用python，推荐的方法我的电脑识别不了。转去尝试在windows上用Neovim，
+
+发现neovim下也是不能识别
+
+最后发现错误在于在.vimrc里设置了错误的`UltiSnipsSnippetDirectories`
+
+成功的设置是这样的
+
+```
+Plug 'SirVer/ultisnips'
+   let g:UltiSnipsSnippetDirectories=['Ultisnips']
+```
+
+==在.vim下新建了Ultisnips文件夹，把snippets直接放在这里==，而不是在.vim/plugged/下面新疆Ultisnips或snippets文件夹，前者导致识别不了，后者导致`global !p``<!DOCTYPE html>`之类报错，因它是snipMate的默认搜索文件夹不是ultisnips的会冲突。
+
+是否必须直接放在.vim下尚未可知，网上有篇文章说：
+
+***
+
+***
+
+***
+
+这个插件很简单，给你看我的设置好了：
+
+```
+NeoBundle 'SirVer/ultisnips'
+let g:UltiSnipsSnippetDirectories=['UltiSnips']
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsListSnippets = '<C-Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+```
+
+哦，对了，我想起来一件事情。`g:UltiSnipsSnippetDirectories` 选项的值必须是文件夹名称（可以是多个），并且这个（些）文件夹必须存在于 `runtimepath` 中的某一项之下。比如说 `~/.vim` 就是 `runtimepath` 中的一项。默认的文件夹 *UltiSnips* 会自动创建，如果你换了，那你必须保证这个文件夹是存在的。我看你换成了 `snippets`，如果你事先安装过 SnipMate，那么 `snippets` 才会存在，否则你得自行创建。`g:UltiSnipsSnippetDirectories` 选项的作用是指定 UltiSnips 的搜索路径，你找不到 snippets 的原因大概就是这样。
+
+解释为什么错了真的很累，换个角度告诉你，如果你做对了是什么样子的：
+
+1. `let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'` 这个设置会确保 *snippets* 都在指定的文件夹内（你自己编辑的也会保存在这里，如果你用了第三方的并且还要进一步编辑，你得确保都复制到了这里）
+
+![img](https://raw.githubusercontent.com/lunnche/picgo-image/main/202109202247132.png)
+
+`let g:UltiSnipsSnippetDirectories = ['UltiSnips']` 这个设置会告诉 UltiSnips 去哪儿找 snippets，可以是多个地方，所以如果你用第三方的 snippets，和上一个设置不在一起的话，你得把它们的路径放这里。要注意的是，这个数组里的每一项都必须在 `runtimepath` 其中的一项之下，所以不确定的话，先看看 `runtimepath` 的值。
+
+![17652d9fe152ed74388c89ce1ec967f3-1.png](https://raw.githubusercontent.com/lunnche/picgo-image/main/202109202249526.png)
+
+若上述两点都做对了，那么在任意类型文件打开的前提下输入 `:UltiSnipsEdit` 都会打开对应类型的 snippets，能不能用，哪些能用，一看便知。
+
+***
+
+***
+
+***
 
 一个片段的格式一般为：
 
