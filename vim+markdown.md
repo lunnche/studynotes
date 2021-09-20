@@ -200,7 +200,7 @@ let g:UltiSnipsEditSplit="vertical"
 
 ### .snippets 文件
 
-在使用 **vim-plug** 安装完 **ultisnips** 之后，可以在插件安装路径下找到文件夹 **ultisnips**。在该文件夹下新建一个 **.snippets** 的文本文件 （例如 ***markdown.snippets\***），就可以在文件里面自定义片段了。
+在使用 **vim-plug** 安装完 **ultisnips** 之后，可以在插件安装路径下找到文件夹 **ultisnips**。在该文件夹下新建一个snippets文件夹，然后在该文件夹里创建 **.snippets** 的文本文件 （例如 **markdown.snippets**），就可以在文件里面自定义片段了。（教材上说直接把.snippets放在ultisnips（u大小写无所谓）文件夹里就行，其实不是，ultisnips里必须创建snippets文件夹，放到该文件夹里才行）
 
 一个片段的格式一般为：
 
