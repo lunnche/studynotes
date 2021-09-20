@@ -200,7 +200,9 @@ let g:UltiSnipsEditSplit="vertical"
 
 ### .snippets 文件
 
-在使用 **vim-plug** 安装完 **ultisnips** 之后，可以在插件安装路径下找到文件夹 **ultisnips**。在该文件夹下新建一个snippets文件夹，然后在该文件夹里创建 **.snippets** 的文本文件 （例如 **markdown.snippets**），就可以在文件里面自定义片段了。（教材上说直接把.snippets放在ultisnips（u大小写无所谓）文件夹里就行，其实不是，ultisnips里必须创建snippets文件夹，放到该文件夹里才行）
+在使用 **vim-plug** 安装完 **ultisnips** 之后，可以在插件安装路径下找到文件夹 **ultisnips**。
+
+按教材内容在ultisnips文件夹内新建Ultisnips文件夹,然后把markdown.snippets建在这里就能用，但我的机器不能用，我的机器智能识别ultisnips/snippets/中的markdown.snippets，但这样会导致如果在snippets中用了Python(开头引入global !p)就会报错，Ultisnips插件开发者在GitHub中issues中生命，不建议把markdown.snippets放在snippets文件夹中，因为这是为snipMate设置的引用方式，会出错。总之不推荐的方法我的电脑能行但不能在snippets中用python，推荐的方法我的电脑识别不了。转去尝试在windows上用Neovim
 
 一个片段的格式一般为：
 

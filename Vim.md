@@ -129,8 +129,6 @@ $ vim --version
 
 确认Vim相关功能是否启用
 
-![image-20210723085806445](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210723085806445.png)
-
 +号表示启用，-号未启用。如图显示支持python2 不支持python3 要想解决这个问题，可以：
 
 1 重新编译Vim并启用python3
