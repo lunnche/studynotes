@@ -1,5 +1,6 @@
 # CALCULUS ONE AND SEVERAL VARIABLES
 
+要想看到此页公式，需使用google chrome浏览器，并安装MathJax Plugin for Github
 什么是微积分
     罗马帝国时期 "calculas"  用来计数或赌博的卵石
     几世纪后     "calculare" 计算
