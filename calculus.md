@@ -1,6 +1,9 @@
 # CALCULUS ONE AND SEVERAL VARIABLES
 
 要想看到此页公式，需使用google chrome浏览器，并安装MathJax Plugin for Github
+
+![image-20210924212735898](https://raw.githubusercontent.com/lunnche/picgo-image/main/202109242127938.png)
+
 什么是微积分
     罗马帝国时期 "calculas"  用来计数或赌博的卵石
     几世纪后     "calculare" 计算
@@ -31,9 +34,9 @@ are all sets.
   the object x is in the set A.   $x \in A$
   the object x is not in the set A. $x  \not\in A$
   the set of all x which satisfy property p $\{x:P\}$
-  $$
+$$
   (\{x:x ^2 = 9 \} = \{-3,3\})
-  $$ 
+$$
   A is a subset of B, A is contained in B  $A \subseteq B$ 
   B is a superset of A, B contains A        $B \supseteq A$ 
                     the union of A and B    $A \cup B$
