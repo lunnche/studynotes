@@ -1,4 +1,20 @@
 # **Markdown** 
+使win10右键能新建markdown文件的方法：
+
+新建txt文件复制一下内容修改后缀名为.reg双击运行即可，之后文件可随意删除
+
+```
+Windows Registry Editor Version 5.00
+ 
+[HKEY_CLASSES_ROOT\.md]
+@="Typora.md"
+"Content Type"="text/markdown"
+"PerceivedType"="text"
+ 
+[HKEY_CLASSES_ROOT\.md\ShellNew]
+"NullFile"=""
+```
+
 # 标题
 
 使用=和-标记一级和二级标题  
