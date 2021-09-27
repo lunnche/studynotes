@@ -1221,3 +1221,63 @@ picgo.AppImage里设置（这一步好像不做也行，用的picgo-core）
 上传服务 (Image Uploader)选择"Custom Command"
 
 command 输入 `[your node path][your picgo-core path ] upload`  可用命令`which picgo`查前面的路径，我的是`/usr/local/bin/picgo upload` ,如果你的“node”和“picgo”都在系统路径里，那么command可直接输入“picgo upload”
+
+
+
+## 在linux下结合picgo-core和typora自动上传图片至github
+
+## 下载 PicGo-Core
+
+```
+$ npm install picgo -g
+# or
+$ yarn global add picgo
+```
+
+## 获取路径
+
+- node安装路径（`which node`）：`/usr/local/bin/node`
+- picgo安装路径（`which picgo`）：`/usr/local/bin/picgo`
+
+### Imgae Upldoad Setting
+
+> 打开 Typora -> 偏好设置 -> 图像：
+
+上传服务选择“Custom Command”，自定义命令格式是 “[your node path] [your picgo-core path] upload”，比如可能是 `/usr/local/bin/node /usr/local/bin/picgo upload`
+
+
+
+![img](https://raw.githubusercontent.com/lunnche/picgo-image/main/171638ed41ea7fb9%7Etplv-t2oaga2asx-watermark.awebp)
+
+picgo 的默认配置文件为`~/.picgo/config.json`。其中`~`为用户目录。不同系统的用户目录不太一样。
+
+linux 和 macOS 均为`~/.picgo/config.json`。
+
+windows 则为`C:\Users\你的用户名/.picgo\config.json`。
+
+配置文件需要至少有如下的配置项：
+
+```
+{
+  "picBed": {
+    "current": "github",
+    "github": {
+      "repo": "lunnche/picgo-image",
+      "branch": "main",
+      "token": "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",
+      "path": "",
+      "customUrl": ""
+    }
+  },
+  "picgoPlugins": {}
+}
+```
+
+## 验证
+
+点击**验证图片上传选项** 按钮
+
+
+
+![image-20200410180446932](https://raw.githubusercontent.com/lunnche/picgo-image/main/171638ed423f33b8%7Etplv-t2oaga2asx-watermark.awebp)
+
