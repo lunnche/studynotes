@@ -1019,4 +1019,25 @@ The total is 00.00
 ```
 第一个例子中，shell从echo命令的参数列表中，删除多余的空格。第二个例子中，参数展开把`$1`的值替换为一个空字符串，因为1是没有定义的变量。shell提供了一种叫做引用的机制，来有选择地禁止不需要的展开。
 ## 双引号
-引用的第一种类型
+引用的第一种类型,放在双引号中文本，除了`$`,`\`（反斜杠）,和`(倒引号）之外，shell使用的特殊字符，将失去其特殊含义，被当做普通字符看待。这意味着单词分割、路径名展开，波浪线展开，花括号展开都被禁止，然而参数展开，算术展开，和命令替换仍然执行。  
+使用双引号，可以处理包含空格的文件名。比如two words.txt。当试图在命令行中使用这个文件，单词分割机制会导致这个文件名被看做两个独自的参数。
+```
+$ ls -l two words.txt
+ls: cannot access two: No such file or directory
+ls: cannot access words.txt: No such file or directory
+```
+使用双引号，我们可以阻止单词分割，得到期望的结果，进一步，甚至可以修复破损的文件名。
+```
+$ ls -l "two words.txt"
+-rw-rw-r-- 1 me me 18 2008-02-20 13:03 two words.txt
+$ mv "two words.txt" two_words.txt
+```
+在双引号中，参数展开，算术表达式展开，和命令替换仍然有效：
+```
+$ echo "$USER $((2+2)) $(cal)"
+me 4 February 2008
+Su Mo Tu We Th Fr Sa
+...
+```
+
+
