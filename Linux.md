@@ -1410,4 +1410,19 @@ $
 ```
 
 ## sudo——以另一个用户身份执行命令
+管理员能够配置sudo命令，从而允许一个普通用户以不同身份（通常是超级用户），通过一种非常可控的方式来执行命令。
+
+sudo命令不要求超级用户的密码。而是使用他自己的密码来认证。  
+例如，sudo命令经过配置，允许我们运行一个虚构的备份程序，叫做“backup_script”，这个程序要求超级用户权限。通过sudo命令，这个程序会像这样运行：
+```
+$ sudo backup_script
+Password:
+System Backup Starting..
+```
+su和sudo的重要区别是sudo不会重新启动一个shell，也不会加载另一个用户的shell运行环境。这意味着命令不必用单引号引起来。想知道sudo命令可以授予哪些权限，使用“-l”选项，列出所有权限：
+```
+$ sudo -l
+User me may run the following commands on this host:
+(ALL) ALL
+```
 
