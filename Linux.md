@@ -1425,4 +1425,108 @@ $ sudo -l
 User me may run the following commands on this host:
 (ALL) ALL
 ```
+普通用户怎样完成某些需要超级用户权限的任务。包括安装和更新软件，编辑系统配置文件，和访问设备。Windows世界里通过授权用户管理员权限来完成。但这也会导致用户执行的程序拥有同样的能力，比如malware（恶意软件），比如电脑病毒，将自由地支配计算机。
+Unix采取的方法是只有在需要的时候，才授予普通用户超级用户权限。这样普遍会用到su和sudo命令。
+几年前，大多数Linux发行版都依赖于su命令，来达到目的。su命令不需要sudo命令所要求的配置，su命令拥有一个root账号，是Unix中的传统。但这回引起问题，所有用户会企图以root用户账号来操纵系统。这会消除所有那些讨厌的“权限被拒绝”的消息。这样会削弱Linux系统安全性能。  
+引进Ubuntu时，创作者们采取了不同的策略。默认情况下，Ubuntu不允许用户登录到root账号（因为不能为root账号设置密码），而是使用sudo命令授予普通用户超级用户权限。
+## chown——更改文件所有者和用户组
+```
+chown [owner][:[group]]file...
+```
+chown命令可以更改文件所有者和或文件用户组，依据于这个命令的第一个参数。
+|参数 |结果 |
+|:-:|:-:|
+|bob |把文件所有者从当前属主更改为用户bob |
+|bob:users |把文件所有者改为用户bob，文件用户组改为用户组user。 |
+|:admins |把文件用户组改为组admins，文件所有者不变。 |
+|bob: |文件所有者改为用户bob，文件用户组改为，用户bob登录系统时，所属的用户组。 |
+
+例如，有两个用户，janet，拥有超级用户访问权限，而tony没有。用户janet想要从她的家目录复制一个文件到用户tony的家目录。因为用户janet想要tony能够编辑这个文件，janet把这个文件的所有者更改为tony:
+```
+$ sudo cp myfile.txt ~tony
+Password:
+$ sudo ls -l ~tony/myfile.txt
+-rw-r--r-- 1 root 8031 2008-03-20 14:30 /home/tony/myfile.txt
+$ sudo chown tony: ~tony/myfile.txt
+$ sudo ls -l ~tony/myfile.txt
+-rw-r--r-- 1 tony 8031 2008-03-20 14:30 /home/tony/myfile.txt
+```
+用户janet把文件从她的目录复制到tony的家目录。下一步，janet把文件所有者从root（使用sudo命令的原因）改到tony。通过在第一个参数中使用末尾的“：”字符，janet同时把文件用户组改为tony登录系统时所属的用户组，碰巧是用户组tony。
+第一次使用sudo后，sudo命令会相信你几分钟，直到计时结束。此时不用再输入密码。
+## chgrp——更改用户组所有权
+旧版Unix系统中，chown命令只能更改文件所有权，而不是用户组所有权。为了达到目的，使用一个独立的命令,chgrp来完成。除了限制多一点之外，chgrp命令与chown命令使用起来很相似。  
+## 练习使用权限
+一个例子，如何设置共享目录，假设有两个用户，分别是“bill”和“karen”。像设置一个共享目录，其中以Ogg Vorbis或MP3格式来存储他们的音乐文件。首先，用GNOME图形化用户管理工具创建一个以bill和karen为成员的用户组，用户组名为music，下一步，bill创建了存储音乐文件的目录：
+```
+$ sudo mkdir /usr/local/share/Music
+password:
+```
+因为bill正在他的家目录之外操作文件，所以需要超级用户权限。这个目录创建之后，它具有以下所有权和权限：
+```
+$ ls -ld /usr/local/share/Music
+drwxr-xr-x 2 root root 4096 2008-03-21 18:05 /usr/local/share/Music
+```
+这个目录由root用户拥有，并且具有权限755。为了使这个目录共享，允许（用户karen）写入，bill需要更改目录用户组所有权和权限：
+```
+$ sudo chown :music /usr/local/share/Music
+$ sudo chomd 775 /usr/local/share/Music
+$ ls -ld /usr/local/share/Music
+drwxrwxr-x 2 root music 4096 2008-03-21 18:05 /usr/local/share/Music
+```
+我们拥有一个目录，/usr/local/share/Music,这个目录由root用户拥有，并且允许用户组music读取和写入。用户组music有两个成员bill和karen，这样bill和karen能够在目录/usr/local/share/Music中创建文件。其他用户能列出目录内容，但不能在其中创建文件。
+但通过目前拥有的权限，在Music目录中创建的文件，只具有用户bill和karen的普通权限：
+```
+$ > /usr/local/share/Music/test_file
+$ ls -l /usr/local/share/Music
+-rw-r--r-- 1 bill bill 0 2008-03-24 20:03 test_file
+```
+存在两个问题，  
+第一个，系统默认掩码是0022，这会禁止用户组成员编辑属于同组成员的文件。如果共享目录只包含文件，这就不是问题，但因为这个目录将会存储音乐，通常音乐会按照艺术家和唱片的层次结构来组织分类。所以用户组成员需要在同组其他成员创建的目录中创建文件和目录。我们将用户bill和karen使用的掩码值改为0002  
+第二个，用户组成员创建的文件和目录的用户组，将会设置为用户的主要组，而不是用户组music。通过设置此目录的setgid位来解决这个问题。
+```
+$ sudo chomod g+s /usr/local/share/Music
+$ ls -ld /usr/local/share/Music
+drwxrwsr-x 2 root music 4096 2008-03-24 20:03 /usr/local/share/Music
+```
+看看新的权限是否解决了这个问题。bill把他的掩码值设为0002，删除先前的测试文件，并创建了一个新的测试文件和目录：
+```
+$ umask 0002
+$ rm /usr/local/share/Music/test_file
+$ > /usr/local/share/Music/test_file
+$ mkdir /usr/local/share/Music/test_dir
+$ ls -l /usr/local/share/Music
+drwxrwsr-x 2 bill music 4096 2008-03-24 20:24 test_dir
+-rw-rw-r-- 1 bill music 0 2008-03-24 20:22 test_file
+$
+```
+这样，创建的文件和目录都具有正确的权限，允许用户组music的所有成员在目录Music中创建文件和目录。
+注意umask命令设置的掩码值这能在当前shell会话中生效，若当前shell会话结束后，则必须重新设置。
+
+## 更改用户密码
+使用passwd命令，来设置或更改用户密码。命令语法如下所示：
+```
+passwd [user]
+```
+只要输入passwd命令，就能更改你的密码。shell会提示你输入你的旧密码和你的新密码：
+```
+$ passwd
+(current) UNIX password:
+New UNIX password:
+```
+passwd命令将会试着强迫你使用“强”密码。这意味：它会拒绝太短的密码，与先前相似的密码，字典中的单词作为密码，或者是太容易猜到的密码：
+```
+$ passwd
+(current) UNIX password:
+New UNIX password:
+BAD PASSWORD: is too similar to the old one
+New UNIX password:
+BAD PASSWORD: it is WAY too short
+New UNIX password:
+BAD PASSWORD: it is based on a dictionary word
+```
+如果你具有超级用户权限，可以指定一个用户名作为passwd命令的参数，这样可以设置另一个用户的密码。还有其他passwd命令选项对超级用户有效，允许账号锁定，密码失效，等等。
+## 进程
+操作系统支持多任务，它给用户造成了一种假象，看起来像它同时能够做多件事情，事实上，它是快速地轮换执行这些任务的。Linux内核通过使用进程，来管理多任务。通过进程，Linux安排不同的程序等待使用CPU。
+## 进程是怎样工作的
+
 
