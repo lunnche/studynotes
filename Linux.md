@@ -1675,7 +1675,7 @@ kill命令被用来给程序发送信号。
 ```
 kill [-signal] 
 ```
-如果在命令行中没有指定信号，那么默认情况下，发送TERM（终止）信号。kill命令被经常用来发送以下命令：
+；如果在命令行中没有指定信号，那么默认情况下，发送TERM（终止）信号。kill命令被经常用来发送以下命令：
 |编号 |名字 |含义 |
 |:-:|:-:|:-:|
 |1 |HUP |挂起。这是美好往昔的痕迹，那时候终端机通过电话线和调制解调器连接到远端的计算机。这个信号被用来告诉程序，控制的远端机已经“挂起”。发送这个信号到终端机上的前台程序，程序会终止。许多守护进程也使用这个信号，来重新初始化。这意味着，当发送这个信号到一个守护进程后，这个进程会重新启动，并且重新读取它的配置文件。Apache网络服务器守护进程就是一个例子。 |
@@ -1802,4 +1802,99 @@ alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-ti
 |/etc/bash.bashrc |应用于所有用户的全局配置文件 |
 |~/.bashrc |用户私有的启动文件。可以用来扩展或重写全局配置脚本中的设置。 |
 
-除了读取以上启动文件之外，非登录shell会话也会继承它们父进程的环境设置，通常是一个登录shell
+除了读取以上启动文件之外，非登录shell会话也会继承它们父进程的环境设置，通常是一个登录shell.
+## 一个启动文件的内容
+
+一个典型的.bash_profile文件（来自CentOS4系统）
+```
+# .bash_profile
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi
+# User specific environment and startup programs
+PATH=$PATH:$HOME/bin
+export PATH
+```
+这段代码：
+```
+if [-f -/.bashrc ]; then
+. ~/.bashrc
+fi
+```
+叫做一个if复合命令，上述代码翻译为
+```
+If the file ~/.bashrc exists,then
+read the ~/.bashrc file.
+```
+这段代码就是一个登录shell得到.bashrc文件内容的方式。
+
+shell是怎样知道到哪里找到我们在命令行中输入的命令的？比如，输入ls后，shell不会查找整个计算机系统，来找到/bin/ls（ls命令的绝对路径名），而是，它查找一个目录列表，这些目录包含在PATH变量中。  
+PATH变量经常（但不总是，依赖于发行版）在/etc/profile启动文件中设置，通过这些代码：
+```
+PATH=$PATH:$HOME/bin
+```
+修改PATH变量，添加目录`$HOME/bin`到目录列表的末尾。这是一个参数展开的实例。
+试看下面例子：
+```
+$ foo="This is some"
+$ echo $foo
+This is some
+$ foo="$foo text."
+$ echo $foo
+This is some text.
+```
+使用这种技巧，可以把文本附加到一个变量值得末尾。通过添加字符串`$HOME/bin`到PATH变量值的末尾，则目录`$HOME/bin`就添加到了命令搜索目录列表中。
+
+一些Debian发行版，例如Ubuntu，在登录的时候，会检测目录~/bin是否存在，若找到目录则把它动态地加到PATH变量中。
+```
+export PATH
+```
+这个export命令告诉shell让这个shell的子进程可以使用PATH变量的内容。
+## 修改shell环境
+既然知道了启动文件所在位置和它们所包含的内容，就可以修改它们来定制自己的shell环境。
+## 我们应该修改哪个文件
+按照通常的规则，添加目录到你的PATH变量或者是定义额外的环境变量，要把这些更改放置到.bash_profile文件中（后者其替代文件中，根据不同的发行版。例如，Ubuntu使用.profile文件）。对于其他的更改，要放到.bashrc文件中。除非你是系统管理员，需要为系统中的所有用户修改默认设置，那么则限定你只能对自己家目录下的文件进行修改。当然，有可能会更改/etc目录中的文件，比如说profile文件，而且在许多情况下，修改这些文件也是明智的。
+## 文本编辑器
+文本编辑器分为两种基本类型：图形化的和基于文本的编辑器。GNOME和KDE两者都包含一些流行的图形编辑器。GNOME自带一个叫做gedit的编辑器，这个编辑器通常在GNOME菜单中称为“文本编辑器”。KDE通常自带了三种编辑器，分别是（按照复杂度递增的顺序排列）kedit,kwrite,kate。  
+有许多基于文本的编辑器，比如nano,vi,emacs。nano是一个简单的，易用的编辑器，它是pico编辑器的替代物，pico编辑器由PINE邮件套件提供。vi编辑器（在大多数Linux系统中被vim替代，vim是“Vi IMproved”的简写）是类Unix操作系统的传统编辑器。emacs编辑器最初由Richard Stallman写成。emacs是一个庞大的，多用途的，可做任何事情的变成环境。虽然emacs很容易获取，但大多数Linux系统很少默认安装它。
+## 使用文本编辑器
+所有的文本编辑器都可以在命令行中输入编辑器名字，加上你所想要编辑的文件来唤醒。如果所输入的文件名不存在，编辑器则会假定你想要创建一个新文件。下面是一个使用gedit的例子：
+```
+$ gedit some_file
+```
+
+当我们编辑一个重要的配置文件时，首先创建一个这个文件的备份。这样能避免在编辑文件时弄乱文件。创建文件.bashrc的备份文件，这样做：
+```
+$ cp .bashrc .bashrc.bak
+```
+备份文件的名字无关紧要，扩展名==“.bak”,".sav",".old",和".orig"==都是用来指示备份文件的流行方法。另外注意，cp命令会默默地重写存在的文件。
+有了备份文件，启动nano，并且编辑文件.bashrc。
+```
+$ nano .bashrc
+```
+nano编辑器启动后，将会得到一个像下面一样的屏幕：
+```
+GNU nano 2.0.3
+...
+```
+这个屏幕由上面的标头，中间正在编辑的文件文本和下面的命令菜单组成。因为设计nano是为了代替由电子邮件客户端提供的编辑器，所以它相当缺乏编辑特性。  
+输入Ctrl-x来退出nano。在屏幕底层的菜单说明了这个命令。"^X"表示法意思是Ctrl-x。这是控制字符常见表示法。
+保存是Ctrl-o,试着编辑：使用下箭头按键和/或下翻页按键，移动鼠标到文件最后一行，然后添加以下几行到文件.bashrc中：
+```
+umask 0002
+export HISTCONTROL=ignoredups
+export HISTSIZE=1000
+alias l.='ls -d .* --color=auto'
+alias ll='ls -l --color=auto'
+```
+你的发型版可能已经包含其中的一些行，但复制没有任何伤害。
+下表是所添加行的意义：
+|文本行 |含义 |
+|:-:|:-:|
+|umask 0002 |设置掩码来解决共享目录的问题 |
+|export HISTCONTROL=ignoredups |使得shell的历史记录功能忽略一个命令，如果相同的命令已被记录。 |
+|export HISTSIZE=1000 |增加命令历史大小，从默认500行扩大到1000行 |
+|alias l.-'ls -d .* --color=auto' |创建一个新命令，叫做'l.',这个命令会显示所有以点开头的目录项。 |
+|alias ll='ls -l --color=auto'| |
+
