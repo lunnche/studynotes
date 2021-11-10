@@ -2250,22 +2250,75 @@ devpts          /dev/pts devpts gid=5,mode=620 0 0
 sysfs           /sys     sysfs  defaults       0 0
 proc            /proc    proc   defaults       0 0
 LABEL=SWAP-sda3 /swap    swap   defaults       0 0
+```
 
 这个实例中所列出的大多数文件系统是虚拟的，前三个是硬盘分区。每行由六个字段组成：
 |字段 |内容 |说明 |
 |:-:|:-:|:-:|
 |1 |设备名 |传统上，这个字段包含与物理设备相关联的设备文件的实际名字，比如说/dev/hda1（第一个IDE通道上第一个主设备分区）。然而今天的计算机，有很多热插拔设备（像USB驱动设备），许多现代Linux发行版用一个文件标签和设备相关联。当这个设备连接到系统中时，这个标签（当储存媒介格式化时，这个标签会被添加到存储媒介中）会被操作系统读取。那样的话，不管赋给实际物理设备哪个设备文件，这个设备仍然能被系统正确地识别。 |
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
+|2 |挂载点 |设备所连接到的文件系统树的目录 |
+|3 |文件系统类型 |Linux允许挂载许多文件系统类型。大多数本地的Linux文件系统是ext3,但也支持其他的，如FAT16(msdos），Fat32（vfat），NTFS（ntfs），CD-ROM（iso9660）等 |
+|4 |选项 |文件系统可通过各种各样的选项来挂载。比如，挂载只读的文件系统，或挂载阻止执行任何程序的文件系统（一个有用的安全特性，避免删除媒介） |
+|5 |频率 |一位数字，指定是否和在什么时间用dump命令来备份一个文件系统。 |
+|6 |次序 |一位数字，指定fsck命令按照什么次序来检查文件系统。 |
 
+## 查看挂载的文件系统列表
+mount命令用来挂载文件系统。执行这个不带参数的命令。将会显示一系列当前挂载的文件系统：
+```
+[me@linuxbox ~]$ mount
+/dev/sda2 on / type ext3 (rw)
+proc on /proc type proc (rw)
+sysfs on /sys type sysfs (rw)
+devpts on /dev/pts type devpts (rw,gid=5,mode=620)
+/dev/sda5 on /home type ext3 (rw)
+/dev/sda1 on /boot type ext3 (rw)
+tmpfs on /dev/shm type tmpfs (rw)
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
+sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw)
+fusectl on /sys/fs/fuse/connections type fusectl (rw)
+/dev/sdd1 on /media/disk type vfat (rw,nosuid,nodev,noatime,
+uhelper=hal,uid=500,utf8,shortname=lower)
+twin4:/musicbox on /misc/musicbox type nfs4 (rw,addr=192.168.1.4)
 ```
 
-
-
+这个列表的格式是：设备 on 挂载点 type 文件系统类型（可选）
+例如，第一行所示设备/dev/sda2作为根文件系统被挂载，文件系统类型是ext3,可读可写。
+ 
+做个试验，在电脑上插入一张光盘，插入前后分别执行`mount`，发现插入后比之前多了一行
+```
+/dev/hcd on /media/live-1.0.10.8 type iso9660 (ro,noexec,nosuid,nodev,uid=500)
+```
+可以看到，CD-ROM已经挂载到了/media/live-1.0.10-8上，它的文件类型是iso9660（CD-ROM）  
+需要注意：音频CD和CD-ROM不一样，音频CD不包含文件系统，这样在通常意义上，它就不能被挂载了。  
+现在我们拥有CD-ROM光盘设备名字，让我们卸载这张光盘，并把它重新挂载到文件系统树的另一个位置。我们需要超级用户身份来进行操作，并且用umount来卸载光盘：
+```
+$ su -
+Password:
+# umout /dev/hdc
+```
+下一步是创建一个新的光盘挂载点。简单地说，一个挂载点就是文件系统树中的一个目录。它没有什么特殊的。它甚至不必是一个空目录，即使你把设备挂载到了一个非空目录上，你也不能看到这个目录中原来的内容，直到你卸载这个设备。创建一个新目录：
+```
+# mkdir /mnt/cdrom
+```
+把CD-ROM挂载到一个新的挂载点上，这个`-t`选项用来指定文件系统类型。
+```
+# mount -t iso9660 /dev/hdc /mnt/cdrom
+```
+然后，就可以通过这个新挂载点来查看CD-ROM的内容
+```
+# cd /mnt/cdrom
+# ls
+```
+注意当我们试图卸载这个CD-ROM时，发生的事情：
+```
+# umount /dev/hdc
+umount: /mnt/cdrom: device is busy
+```
+这是因为如果某个用户或进程正在使用一个设备，那么这个设备就不能被卸载。  
+这种情况下，把工作目录更改到了CD-ROM的挂载点，这个挂载点导致设备忙碌。可以很容易修复这个问题通过把工作目录改到其他目录而不是这个挂载点。
+```
+# cd
+# umount /dev/hdc
+```
+现在这个设备成功卸载了。
 
