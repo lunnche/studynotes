@@ -2294,7 +2294,7 @@ twin4:/musicbox on /misc/musicbox type nfs4 (rw,addr=192.168.1.4)
 ```
 $ su -
 Password:
-# umout /dev/hdc
+# umount /dev/hdc
 ```
 下一步是创建一个新的光盘挂载点。简单地说，一个挂载点就是文件系统树中的一个目录。它没有什么特殊的。它甚至不必是一个空目录，即使你把设备挂载到了一个非空目录上，你也不能看到这个目录中原来的内容，直到你卸载这个设备。创建一个新目录：
 ```
@@ -2321,4 +2321,117 @@ umount: /mnt/cdrom: device is busy
 # umount /dev/hdc
 ```
 现在这个设备成功卸载了。
+
+为什么卸载重要
+鞋子啊一个设备需要把所有剩余的数据写入这个设备，所以设备可以被安全地移除。如果没有卸载设备，就移除了它，就有可能没有把注定要发送到设备中的数据输送完毕。在某些情况下，这些数据可能包含重要的目录更新信息，这将导致文件系统损坏，这是发生在计算机中的最坏的事情之一。
+
+## 确定设备名称
+以前，在开发Unix系统的时候，“更改一个磁盘驱动器”要用一辆叉车从机房中移除一台如洗衣机大小的设备。现代Linux桌面系统可以“自动地”挂载设备，然后再确定设备名称。  
+列出目录/dev（所有设备的住所）的内容，我们会看到许多设备：
+```
+$ ls /dev
+```
+|模式 |设备 |
+|:-:|:-:|
+|/dev/fd* |软盘驱动器 |
+|/dev/hd* |老系统中的IDE（PATA)磁盘。典型的主板包含两个IDE连接器或者是通道，每个连接器带有一根缆线，每根缆线上有两个硬盘驱动器连接点。缆线上的第一个驱动器叫做主设备，第二个叫做从设备。设备名称这样安排,/dev/hda是指第一通道上的主设备名，/dev/hdb是第一通道上的从设备名，/dev/hdc是第二通道上的主设备名。末尾的数字表示硬盘驱动器上的分区。例如，/dev/hda1是指系统中第一硬盘驱动器上的第一个分区，而/dev/hda则是指整个硬盘驱动器。 |
+|/dev/lp* |打印机 |
+|/dev/sd* |SCSI磁盘。在最近的Linux系统中，内核把所有类似于磁盘的设备（包括PATA/SATA硬盘，闪存，和USB存储设备，比如可移动的音乐播放器和数码相机）看做SCSI磁盘。剩下的命令系统类似于上述旧的/dev/hd*命令方案 |
+|/dev/sr* |光盘（CD/DVD读取器和烧写器） |
+
+我们经常看到符号链接比如说/dev/cdrom,/dev/dev和/dev/floppy,它们指向实际的设备文件，提供这些链接是为了方便使用。如果你工作的系统不能自动挂载可移动的设备，你可以使用下面的技巧来决定当可移动设备连接后，它是怎样被命名的。首先，启动一个实时查看文件/var/log/messages（你可能需要超级用户权限）
+```
+$ sudo tail -f /var/log/messages
+```
+
+这个文件的最后几行会被显示，然后停止。下一步，插入可移动设备。在这个例子里，我们将使用一个16MB闪存。瞬间，内核就会发现这个设备，并探测它：
+```
+Jul 23 10:07:53 linuxbox kernel: usb 3-2: new full speed USB device
+using uhci_hcd and address 2
+Jul 23 10:07:53 linuxbox kernel: usb 3-2: configuration #1 chosen
+from 1 choice
+Jul 23 10:07:53 linuxbox kernel: scsi3 : SCSI emulation for USB Mass
+Storage devices
+Jul 23 10:07:58 linuxbox kernel: scsi scan: INQUIRY result too short
+(5), using 36
+Jul 23 10:07:58 linuxbox kernel: scsi 3:0:0:0: Direct-Access Easy
+Disk 1.00 PQ: 0 ANSI: 2
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] 31263 512-byte
+hardware sectors (16 MB)
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Write Protect is
+off
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Assuming drive
+cache: write through
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] 31263 512-byte
+hardware sectors (16 MB)
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Write Protect is
+off
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Assuming drive
+cache: write through
+Jul 23 10:07:59 linuxbox kernel: sdb: sdb1
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Attached SCSI
+removable disk
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: Attached scsi generic
+sg3 type 0
+```
+
+显示再次停止之后，输入Ctrl-c，重新得到提示符。输出结果的有趣部分是一再提及“[sdb]”，这正好符和我们期望的SCSI磁盘设备名称。这道这一点后，有两行输出变得颇具启发性：
+```
+Jul 23 10:07:59 linuxbox kernel: sdb: sdb1
+Jul 23 10:07:59 linuxbox kernel: sd 3:0:0:0: [sdb] Attached SCSI
+removable disk
+```
+这告诉我们这个设备名称是/dev/sdb指整个设备，/dev/sdb1是这个设备的第一分区。  
+使用`tail -f /var/log/messages`技巧是一个很不错的方法，可以实时观察系统的一举一动。  
+
+既然知道了设备名称，我们就可以挂载这个闪存驱动器了：
+```
+[me@linuxbox ~]$ sudo mkdir /mnt/flash
+[me@linuxbox ~]$ sudo mount /dev/sdb1 /mnt/flash
+[me@linuxbox ~]$ df
+Filesystem 1K-blocks Used Available Use% Mounted on
+/dev/sda2 15115452 5186944 9775164 35% /
+/dev/sda5 59631908 31777376 24776480 57% /home
+/dev/sda1 147764 17277 122858 13% /boot
+tmpfs 776808 0 776808 0% /dev/shm
+/dev/sdb1 15560 0 15560 0% /mnt/flash
+```
+这个设备名称会保持不变只要设备与计算机保持连接且计算机不会重新启动。
+
+## 创建新的文件系统
+如果想用Linux本地文件系统来重新格式化闪存驱动器，而不是它现用的FAT32系统。这涉及到两个步骤：1 （可选的）创建一个新的分区布局若已存在的分区不是我们喜欢的。 2 在这个闪存上创建一个新的空的文件系统。  
+## 用fdisk命令操作分区
+fdisk程序允许我们直接在底层与类似磁盘的设备（比如说硬盘驱动器和闪存驱动器）进行交互。使用这个工具可以在设备上编辑，删除，和创建分区。以我们的闪存驱动器为例，首先我们必须卸载它（如果需要的话），然后调用fdisk程序，如下所示：
+```
+$ sudo umount /dev/sdb1
+$ sudo fdisk /dev/sdb
+```
+注意我们必须指定设备名称，就整个设备而言，而不是通过分区号。程序启动后，我们将看到以下提示：
+```
+Command (m for help):
+```
+输入“m”会显示程序菜单：
+```
+Command action
+a       toggle a bootable flag
+....
+```
+我们想要做的第一件事情是检查已存在的分区布局。输入“p”会打印出这个设备的分区表：
+```
+Command (m for help): p
+
+Disk /dev/sdb: 16 MB, 16006656 bytes
+1 heads, 31 sectors/track, 1008 cylinders
+Units = cylinders of 31 * 512 = 15872 bytes
+
+Device Boot  Start    End   Blocks    Id   System
+/dev/sdb1        2   1008    15608+    b  w95 FAT32
+```
+
+可以看到，16MB的设备只有一个分区，此分区占用了可用的1008个柱面中的1006个，并被标识为Windows 95 FAT32分区。有些程序会使用这个标志符来限制一些可以对磁盘所做的操作，但大多数情况下更改这个标志符没有危害。  
+在上面列表中，我们看到ID号码“b”被用来指定这个已存在的分区。  
+要查看可用的分区类型列表，参考之前的程序菜单，我们会看到以下选项：
+```
+l list known partition types
+```
 
