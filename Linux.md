@@ -2434,4 +2434,78 @@ Device Boot  Start    End   Blocks    Id   System
 ```
 l list known partition types
 ```
+如果在提示符下输入“l”，就会显示一个很长的可能类型列表。在它们之中会看到“b”为已存在分区类型的ID号，而“83”是针对Linux系统的ID号。  
+回到之前的菜单，看到这个选项来更改分区ID号
+```
+t change a partition's system id
+```
+先输入“t”，再输入新的ID号：
+```
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list codes): 83
+Changed system type of partition 1 to 83 (Linux)
+```
+这就完成了需要做的修改。到目前为止，还没有接触这个设备（所有修改都存储在内存中，而不是在此物理设备中），所以我们将会把修改过的分区表写入此设备，再退出。为此，我们在提示符下输入“w”：  
+
+```
+
+```
+```
+Command (m for help): w
+The partition table has been altered!
+Calling ioctl() to re-read partition table.
+WARNING: If you have created or modified any DOS 6.x
+308partitions, please see the fdisk manual page for additional
+information.
+Syncing disks.
+```
+如果已经决定保持设备不变，可在提示符下输入“q”，这将退出程序而没有改写更改。可以安全地忽略警告信息。
+## 用mkfs命令创建一个新的文件系统
+完成了分区编辑工作后，可以在闪存驱动器上创建一个新的文件系统。使用mkfs（“make fiel system”的简写）能创建各种格式的文件系统。在此设备上创建一个ext3文件系统，使用“-t”选项来指定这个“ext3”系统类型，随后是我们要格式化的设备分区名称：
+```
+[me@linuxbox ~]$ sudo mkfs -t ext3 /dev/sdb1
+mke2fs 1.40.2 (12-Jul-2007)
+Filesystem label=
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+3904 inodes, 15608 blocks
+780 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=15990784
+2 block groups
+8192 blocks per group, 8192 fragments per group
+3091952 inodes per group
+Superblock backups stored on blocks:
+8193
+Writing inode tables: done
+Creating journal (1024 blocks): done
+Writing superblocks and filesystem accounting information: done
+This filesystem will be automatically checked every 34 mounts or
+180 days, whichever comes first. Use tune2fs -c or -i to override.
+[me@linuxbox ~]$
+```
+当ext3被选为文件系统类型时，这个程序会显示许多信息。若把这个设备重新格式化为它最初的FAT32文件系统，指定“vfat”作为文件系统类型：
+```
+sudo  mkfs -t vfat /dev/sdb1
+```
+任何时候添加额外的存储设备到系统中时，都可以使用这个分区和格式化过程。同样的操作可以被应用到内部硬盘和其它可移动的存储设备（例如USB硬盘驱动器）。
+## 测试和修复文件系统
+之前讨论的/etc/fstab文件中，每行的末尾可以看到一些神秘数字。每次系统启动时，在挂载系统之前，都会按照管理检查文件系统的完整性。这个任务由fsck程序（是“file system check”的简写）完成。每个fstab项中的最后一个数字指定了设备的检查顺序。在上面的实例中，可以看到首先检查根文件系统，然后是home和boot文件系统。若最后一个数字是零则响应设备不会被检查。
+除了检查文件系统完整性之外，fsck还能修复受损文件系统，其成功度依赖于损坏的数量。在类Unix文件系统中，文件恢复的部分被放置于lost+found目录里面，位于每个文件系统的根目录下面。
+检查我们的闪存驱动器（首先应该卸载），执行下面操作：
+```
+[me@linuxbox ~]\$ sudo fsck /dev/sdb1
+fsck 1.40.8 (13-Mar-2008)
+e2fsck 1.40.8 (13-Mar-2008)
+/dev/sdb1: clean, 11/3904 files, 1661/15608 blocks
+```
+文件系统损坏情况相当罕见，除非硬件存在问题，如磁盘驱动器故障。在大多数系统中，系统启动阶段若探测到文件系统已经损坏了，则会导致系统停止下来，在系统继续执行之前，会指导你运行fsck程序。  
+在Unix文化中，“fsck”这个单词往往会被用来代替一个流行的词，“fsck”和这个词共享了三个字母。这个尤其适用，因为你可能会说出上文提到的词，若你发现自己处于这种情况下，被强制来运行fsck命令时。
+## 格式化软盘
+略
+## 直接把数据移入/出设备
+虽然通常认为计算机中的数据以文件形式来组织数据，也可以“原始的”形式来考虑数据。一个磁盘驱动器，由大量数据“块”组成，而操作系统却把这些数据块看作目录和文件。
+
 
