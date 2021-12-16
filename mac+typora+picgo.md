@@ -65,3 +65,16 @@ Output from the console:
 ```
 
 这也是非常搞笑了
+
+另外，
+npm安装一些东西比较慢，安装cnpm加快速度，安装方法：
+```
+sudo npm install -g cnpm --registry=https://registry.npm.taobao.org --verbose
+```
+
+这一行使用淘宝镜像安装cnpm，安装完成后输入以下代码检测是否安装成功：
+```
+cnpm -v
+```
+
+
