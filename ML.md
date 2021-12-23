@@ -38,11 +38,28 @@ x1是已知的youtube后台的资讯，叫做feature,w叫做weight，b叫做bias
 Loss is a function of parameters  L(b,w)
 Loss : how good a set of values is .
 
-真实值，正确的数值叫label   怎么计算Loss？给定一组（b,w），根据训练数据，计算所有预测值和真实值得偏差得总和求平均
+真实值，正确的数值叫label   怎么计算Loss？给定一组（b,w），根据训练数据，计算所有预测值和真实值的偏差的总和求平均
 
 $$
 Loss:L=\frac{1}{N}\sum_{n}{e_n}
 $$
+L越大，代表这一组参数越不好，e就是计算估算值和实测值之间的差距:
+
+***
+
+$$
+e=\left|y-\widehat{y}\right|        
+$$
+<center>L is mean absolute error (MAE)</center>
+***
+
+$$
+e=(y-\widehat{y})^2
+$$
+<center>L is mean square error (MSE)</center>
+***
+
+MSE和MAE有微妙的差别，具体选哪个应根据具体问题分析，这里选MAE
 
 
 
