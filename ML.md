@@ -92,8 +92,8 @@ $$
 
 
 怎么找到这个让L值最小的w呢，即Gradient Descent的步骤：
-    **1 (Randomly)Pick an initial value $w^0$**（有一些方法可以给我们一个比较好的初始值，但这里先整个随机的）
-    **2 compute $\frac{\partial{L}}{\partial{w}}|_{w=w^0}$** 计算w=$w^0$时，w这个参数对Loss的微分,即计算在$w_0$这一点，error surface切线的斜率，若切线的斜率是负的，即左边高右边低，那就把w值变大，就可以让Loss变小。
+    **1 (Randomly)Pick an initial value**$w^0$（有一些方法可以给我们一个比较好的初始值，但这里先整个随机的）
+    **2 compute**$\frac{\partial{L}}{\partial{w}}|_{w=w^0}$ 计算w=$w^0$时，w这个参数对Loss的微分,即计算在$w_0$这一点，error surface切线的斜率，若切线的斜率是负的，即左边高右边低，那就把w值变大，就可以让Loss变小。
     反之减小w。
     增加或减小w，步幅多大呢，取决于两件事，1 斜率 2 $\eta$
     $$
