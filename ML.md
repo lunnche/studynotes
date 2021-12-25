@@ -76,11 +76,15 @@ if y and $\widehat{y}$ are both probability distributions 概率分布
 
 ## 3
 Optimization
+
+
 $$
 w^*,b^*=\mathop{\arg\min}\limits_{w,b}L
 $$
-这个最优化问题可表述为：找一个最优的w,b值组，可以让L值最小，这个具体的w,b值，记为$w^*,b^*$
-要怎么找出这个$w^*,b^*$值呢，用Gradient Descent方法 梯度下降
+
+
+这个最优化问题可表述为：找一个最优的w,b值组，可以让L值最小，这个具体的w,b值，记为$w^*$,$b^*$
+要怎么找出这个$w^*$,$b^*$值呢，用Gradient Descent方法 梯度下降
 
 这个Gradient Descent方法具体怎么做呢，为表述方便，先假设只有一个未知参数w：
 $$
