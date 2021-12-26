@@ -86,7 +86,6 @@ Optimization
 
 $$
 w^*,b^* = \mathop{\arg\min}\limits_{w,b} L
-
 $$
 
 这个最优化问题可表述为：找一个最优的w,b值组，可以让L值最小，这个具体的w,b值，记为$w^*$,$b^*$
@@ -97,17 +96,16 @@ $$
 w^*=\mathop{\arg\min}\limits_{w}L
 $$
 
-![Screen Shot 2021-12-24 at 9.28.00 AM](../Desktop/Screen Shot 2021-12-24 at 9.28.00 AM.png)
+![Screen Shot 2021-12-26 at 6.03.42 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-26%20at%206.03.42%20PM.png)
 这条曲线就是error surface的二维版
 
 
 怎么找到这个让L值最小的w呢，即Gradient Descent的步骤：
 
-
-    **1 (Randomly)Pick an initial value**  
+**1 (Randomly)Pick an initial value**  
    $w^0$（有一些方法可以给我们一个比较好的初始值，但这里先整个随机的）
 
-    **2 compute**
+**2 compute**
    $\frac{\partial{L}}{\partial{w}}|_{w=w^0}$   
 
    计算w=$w^0$时，w这个参数对Loss的微分,即计算在$w_0$这一点，error surface切线的斜率，若切线的斜率是负的，即左边高右边低，那就把w值变大，就可以让Loss变小。
@@ -121,7 +119,7 @@ $\eta$: learning rate
 learning rate是自己设定的，像learning rate这种在机器学习中需要自己设定的东西叫做hyperparameters
 之前说做机器学习第一步中包含未知参数，这些参数是机器自己找出来的
 为什么Loss可以是负的，Loss是估测的值和正确的值之差的绝对值，案例不可能是负，但是Loss这个function是你自己决定的，比如我定义一个Loss=绝对值-100，上图的Loss只是随便瞎画的，没有任何实际意义，若按一般问题中Loss为绝对值的定义，则不可能出现负值
-   
-   **3 Update w iteratively** 什么时候停下来呢 两种情况 1 你失去耐心 设定参数更新多少次后停下，这个多少次也是个hyperparameter，2 微分那一项算出来是0
+
+**3 Update w iteratively** 什么时候停下来呢 两种情况 1 你失去耐心 设定参数更新多少次后停下，这个多少次也是个hyperparameter，2 微分那一项算出来是0
 
 因此，gradient descent方法有一个巨大的问题，那就是我们没有找到那个最好的解，梯度下降找到的是局部最优(local minima)，而非全局最优(global minima)
