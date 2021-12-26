@@ -136,3 +136,33 @@ $$
 w^*,b^* = \mathop{\arg\min}_{w,b} L
 $$
 
+* (Randomly)Pick initial values $w^0,b^0$  
+* Compute  
+$$
+\frac{\partial{L}}{\partial{w}}|_{w=w^0,b=b^0}
+$$
+$$
+\frac{\partial{L}}{\partial{b}}|_{w=w^0,b=b^0}
+$$
+
+分别计算w对Loss的微分，b对Loss的微分  
+
+$$
+w^1 \leftarrow w^0 - \eta \frac{\partial{L}}{\partial{w}}|_{w=w^0,b=b^0}
+$$
+$$
+b^1 \leftarrow b^0 - \eta \frac{\partial{L}}{\partial{b}}|_{w=w^0,b=b^0}
+$$
+
+如上，$w^0$ 减去 learning rate 乘上 微分的结果 得到 $w^1$  
+
+那么这个微分要怎么算呢，其实 Can be done in one line in most deep learning frameworks
+
+* Update w and b interatively  
+
+为什么在这个方向前面要加上负号？  
+因为如果算出来的微分是负的，说明右侧的L小，因此w要增大（往右移动），加上负号位移就为正了。
+
+![Screen Shot 2021-12-26 at 8.10.37 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-26%20at%208.10.37%20PM.png)
+
+p2 39:52
