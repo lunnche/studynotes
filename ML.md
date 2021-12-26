@@ -15,7 +15,8 @@ machine learning ≈ looking for function
 ![Screen Shot 2021-12-20 at 2.12.08 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-20%20at%202.12.08%20PM.png)
 
 ### Different types of Functions
-Regression:The function outputs a scalar 用于连续值 
+Regression:The function outputs a scalar 用于连续值   
+
 Classification:Given options(classes),the function outputs the correct one 用于离散值
 alphaGo其实也是分类问题 输入棋局，输出从19×19个分类（位置）中选一个
 
