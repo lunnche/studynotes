@@ -129,3 +129,10 @@ learning rate是自己设定的，像learning rate这种在机器学习中需要
 ![Screen Shot 2021-12-26 at 6.24.01 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-26%20at%206.24.01%20PM.png)
 
 所以有人说gradient descent不是个好方法，这个方法有local minima的问题，没有办法真的找到global minima。但这其实只是幻觉而已，假设你有做过深度学习相关的事情，假设你有自己训练network，自己做过Gradient Descent经验的话，其实local minima是一个假问题，我们在做Gradient Descent的时候，真正面对的难题不是local minima，到底是什么，之后会讲。
+
+## 有两个参数的情况
+
+$$
+w^*,b^* = \mathop{\arg\min}_{w,b} L
+$$
+
