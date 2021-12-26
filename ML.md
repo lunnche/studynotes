@@ -125,3 +125,7 @@ learning rate是自己设定的，像learning rate这种在机器学习中需要
 **3 Update w iteratively** 什么时候停下来呢 两种情况 1 你失去耐心 设定参数更新多少次后停下，这个多少次也是个hyperparameter，2 微分那一项算出来是0
 
 因此，gradient descent方法有一个巨大的问题，那就是我们没有找到那个最好的解，梯度下降找到的是局部最优(local minima)，而非全局最优(global minima)
+
+![Screen Shot 2021-12-26 at 6.24.01 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-26%20at%206.24.01%20PM.png)
+
+所以有人说gradient descent不是个好方法，这个方法有local minima的问题，没有办法真的找到global minima。但这其实只是幻觉而已，假设你有做过深度学习相关的事情，假设你有自己训练network，自己做过Gradient Descent经验的话，其实local minima是一个假问题，我们在做Gradient Descent的时候，真正面对的难题不是local minima，到底是什么，之后会讲。
