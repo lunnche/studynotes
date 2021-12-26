@@ -84,6 +84,11 @@ if y and $\widehat{y}$ are both probability distributions 概率分布
 ## 3
 Optimization  
 
+$$
+w^*,b^* = \mathop{\arg\min}\limits_{w,b} L
+
+$$
+
 
 $$
 w^*,b^*=\mathop{\arg\min}\limits_{w,b}L
