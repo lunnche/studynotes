@@ -52,14 +52,15 @@ Loss : how good a set of values is .
 $$
 Loss:L=\frac{1}{N}\sum_{n}{e_n}
 $$
-L越大，代表这一组参数越不好，e就是计算估算值和实测值之间的差距:
+L越大，代表这一组参数越不好，e就是计算估算值和实测值之间的差距:  
 
 ***
 
 $$
 e=\left|y-\widehat{y}\right|        
 $$
-<center>L is mean absolute error (MAE)</center>
+<center>L is mean absolute error (MAE)</center>  
+
 ***
 
 $$
@@ -71,7 +72,6 @@ $$
 MSE和MAE有微妙的差别，具体选哪个应根据具体问题分析，这里选MAE
 MSE也可以，作业里用MSE
 
-到p2 22:26
 
 有一些任务：
 if y and $\widehat{y}$ are both probability distributions 概率分布
@@ -82,7 +82,7 @@ if y and $\widehat{y}$ are both probability distributions 概率分布
 这种等高线图叫error surface
 
 ## 3
-Optimization
+Optimization  
 
 
 $$
