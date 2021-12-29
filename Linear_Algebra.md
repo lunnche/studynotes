@@ -191,6 +191,82 @@ $$
 
 想象下把此问题推广到9维的情况，这样就有9列，每一列都是9维空间的向量，我们来考虑其线性组合，是否对任意b都有解，还是取决于这9个列向量，比如取随机矩阵，答案很可能是yes，在matlab中使用随机命令，任意取一个9×9矩阵，保证好使，保证非奇异、可逆。但如果选择一些相互不独立的列向量，比如假设一种情况9列只相当于8列，其中一列毫无贡献，这样就会有一些b无法求得，
 
- 34：14   
+想象9维空间中的中的9个向量的组合，这是线性代数中必须掌握的中心内容,虽然你无法将将其具象化,但不久后你将能够做到。  
+
+九个列向量及其线性组合将能够覆盖整个九维空间，但如果第九列碰巧等于第八列（它毫无贡献），这时线性组合就只能覆盖9维空间中的某8维平面。最后的求解也只能在这个8维平面上展开  
+
+方程的矩阵形式 matrix form of the equation  
+
+矩阵A乘以某向量x等于右侧向量b  
+$$
+Ax=b
+$$
+
+矩阵乘以向量，如何做，例如：  
+第一种方法，一次取一列：
+$$
+\left[
+\begin{matrix}
+2&5 \\
+1&3 
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+1 \\
+2
+\end{matrix}
+\right]
+$$
+取1个第1列和2个第二列之和
+$$
+\left[
+\begin{matrix}
+2&5 \\
+1&3 
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+1 \\
+2
+\end{matrix}
+\right]
+=1
+\left[
+\begin{matrix}
+2 \\
+1
+\end{matrix}
+\right]
++2
+\left[
+\begin{matrix}
+5 \\
+3
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+12 \\
+7
+\end{matrix}
+\right]
+$$
+
+第二种方法，一次取一行：  
+
+用一行乘以向量，这也是点乘（dot product)的概念  
+2×1+5×2=12  
+
+Gilbert Strang 更倾向于第一种方法，see that as a linear combination of a column.
+
+A 乘以x，可以看作A各列的线性组合  
+Ax is a combination of columns of A  
+
+以上两种方法都可以，但在以后处理数据量较大的问题时，推荐看作列的线性组合来解决问题  
+
+p1 结束  
 
 
