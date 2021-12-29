@@ -165,4 +165,86 @@ $$
 
 ![Screen Shot 2021-12-26 at 8.10.37 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-26%20at%208.10.37%20PM.png)
 
-p2 39:52
+若
+$$
+w^*=0.97,b^*=0.1k\\
+L(w^*,b^*)=0.48k
+$$
+说明啥：
+取w为0.97，b为0.1k 效果最好，即其实x1和y是接近的，所以当weight取接近1，bias取小值时，效果较好，L表明预测和实际点阅量的平均偏差在500人左右。
+
+总结：
+Machine Learning is so simple:
+* Step1: function with unkown
+* Step2: define loss from training data
+* Step3: optimization
+
+然后，上例的结果是最令人满意的结果吗：
+$y=0.1k+0.97x_1$ achieves the smallest loss $L=0.48k$ on data of 2017-2020(training data)
+
+也许不是，因为上述三部统称为训练(training)，即在已知的资料上去计算loss，其实只是在自high而已,即假装自己不知道隔天的点阅量，拿求出的函数y来预测，能得到0.48k的Loss，但我们真正在意的不是过去已经知道的东西，而是未来未知的观看次数
+
+How about data of 2021 (unseen during training)?
+$$
+L'=0.58k
+$$
+
+ ![Screen Shot 2021-12-29 at 3.37.40 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%203.37.40%20PM.png)
+
+可是化后如上图所示：
+发现每到周五、周六就没人学机器学习，可以理解，出去浪，
+为什么周日大家都学机器学习，也许和youtube的推荐机制有关，一到周五、六就不推荐给大家机器学习的视频，搞不懂
+总之，发现了这种周期性的规律后，就可以改进模型。
+
+对模型的改进往往来自于你对这个问题的理解。即domain knowledge
+
+一开始我们对问题完全不理解的时候，就胡乱写个$y=b+wx_1$，接下来我们观察真实数据后，得到一个结论：每隔七天有个循环，所以应该把前七天的观看人次都列入考虑。写出如下模型：
+$$
+y=b+\sum_{j=1}^{7}{w_jx_j}
+$$
+
+上面考虑了前7天，如果考虑更多会怎样呢？
+$$
+y=b+\sum_{j=1}^{28}{w_jx_j}
+$$
+
+![Screen Shot 2021-12-29 at 3.49.12 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%203.49.12%20PM.png)
+
+上图为考虑不断增加天数，对Loss的影响，可以看到考虑越多的天，Loss越小，但从28天增加到56天，对于预测未来已无提高，$L'$保持为0.46k  
+
+上述的模型都是feature乘上weight加上bias，这类模型都叫做linear models  
+
+linear models are too simple... we need more sophisticated models.  
+也许x1和y之间有复杂的关系，但linear models永远只能表征一条直线，随着x1越来越高，y就理应越来越大，改变w和b只能调整斜率和y周截距，不管你怎么摆弄w和b，永远也造不出类似红色线这种体现物极必反规律的曲线  
+Linear models have severe limitation   <b> Model Bias </b>
+
+![Screen Shot 2021-12-29 at 4.00.13 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.00.13%20PM.png)
+
+We need a more flexible model!  
+
+怎么做出红色线这样的model呢
+
+观察发现：
+<font color='red'>red curve</font>= constant + sum of a set of ![Screen Shot 2021-12-29 at 4.05.06 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.05.06%20PM.png)
+
+
+红色曲线可视做常量+一群蓝色图像的结果，蓝色图像的特点是：
+当x轴的值小于某一个threshhold的时候，它是一个定值，大于另一个threshhold的时候，又是另一个定值，中间有一个斜坡，
+
+常数项constant取决于图像和y轴的交点
+
+怎么往上加蓝色图像呢，和红线同起点，斜坡的终点设在第一个转角处，保持蓝色图像和红线的斜率一样，0线+1线可得红线在第一个转折点之前的部分  
+
+接下来再加蓝色线2，0线+1线+2线可得红线第二个转折点之前的部分。  
+
+同理加线3 ![Screen Shot 2021-12-29 at 4.20.31 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.20.31%20PM.png)
+
+
+
+![Screen Shot 2021-12-29 at 4.23.16 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.23.16%20PM.png)
+
+即使x和y的关系，不是Piecewise Linear的Curves，可以先在曲线上取一些点，再把这些点连起来，变成一个piecewise linear 的curves，点取得越多，取的未知越合适，就越能逼近原来的曲线。
+
+![Screen Shot 2021-12-29 at 4.29.40 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.29.40%20PM.png)
+
+
