@@ -176,11 +176,56 @@ hbuilder 不愿意用 ，用idea也可
 ## 背景颜色和背景图片  
 ```
 <meta charset="utf-8">
-啥意思 告诉浏览器采用哪种字符编码方式打开我当前的文件，并不是设置当前文件的字符编码方式
-注意：如果用editplus以简体中文的方式编辑html，然后在<head>下加上<meta charset="utf-8">，用浏览器打开就会出乱码，改成<meta charset="GBK">即可  
-一般来说，文件采取什么字符集<meta charset=" ">就设置什么字符集，代码跟ide设置的编码方式有关，而meta设置的只是浏览器的打开方式，跟代码无关。
- 
- p12 10:16
+啥意思 告诉浏览器采用哪种字符集打开当前页面，并不是设置当前页面的字符编码方式
+注意：如果用editplus以GBK编码方式编辑html，然后在<head>下加上<meta charset="utf-8">，用浏览器打开就会出乱码，改成<meta charset="GBK">即可
+若用HBuilderX，用<meta charset="utf-8"可以正常显示，因为其本身就是用utf-8编码的。
+IDEA也是用utf-8编码
+```
+
+```
+背景色设置
+<body bgcolor="red" background="img/bd_logo1.png">
+
+这的图片平铺了，怎么避免平铺，1 把图片搞大点 2 css样式
+```
+
+## 图片img
+```
+<img src="img/bd_logo1.png" width="100px" height="200px" title="我是百度图片哦" alt="图片找不到哦" />   
+
+注意
+1 最后有个"/"
+2 宽度、高度设置任一个即可,两个同时设置可能失真 【杠】或者其一设置为100%
+3 title设置鼠标悬停时显示的信息
+4 alt设置图片加载失败时显示的提示信息。
+5 <img />   或者    <img></img>  都行，前提是<img></img>中间没东西
+
+```
+
+## 超链接或热链接
+```
+<a href="http://www.baidu.com">百度</a>
+
+href: hot references 热引用
+
+chrome opt+command+i 打开开发者模式 左上角小箭头（查看器） 可用来确定网页元素大小等信息
+
+图片超链接
+<a href="https://www.hao123.com/">
+    <img src="img/hao123.png" width="120px" />
+</a>
+
+target属性 
+_blank 在新窗口打开 
+_self 当前窗口（默认）
+_top 顶级窗口
+_parent 父窗口
+
+<a href="https://www.hao123.com/" target=" "
+
+```
+
+p14 看完
 
 
 
