@@ -445,13 +445,58 @@ $$
 $$
 
 * (Randomly)Pick initial values  $\theta^0$
+
+
 $$
 g=
 \left[
 \begin{matrix}
-\frac{\partialL}{\partial\theta_1}|_
+\frac{\partial{L}}{\partial{\theta_1}}|_{\theta=\theta^0}\\
+\frac{\partial{L}}{\partial{\theta_2}}|_{\theta=\theta^0}\\
+\vdots
+\end{matrix}
+\right]
+
+$$
+
+g即gradient
+
+$$
+g=\nabla L(\theta^0)
+$$
+
+这个倒三角的意思就是，把所有参数  $\theta$ 通通拿去对L作微分
+后边放  $\theta^0$ 的意思是，算微分的位置是在  $\theta$ 等于  $\theta^0$ 的地方
+
+算出gradient 后，接下来update我们的参数
+
+$$
+\left[
+\begin{matrix}
+\theta_1^1\\
+\theta_2^1\\
+\vdots
+\end{matrix}
+\right]
+\leftarrow
+\left[
+\begin{matrix}
+\theta_1^0\\
+\theta_2^0\\
+\vdots
+\end{matrix}
+\right]-
+\left[
+\begin{matrix}
+\eta\frac{\partial{L}}{\partial{\theta_1}}|_{\theta=\theta^0}\\
+\eta\frac{\partial{L}}{\partial{\theta_2}}|_{\theta=\theta^0}\\
+\vdots
+\end{matrix}
+\right]
+
+$$
 
 
-
+p3 35:21
 
 
