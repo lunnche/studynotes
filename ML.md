@@ -176,7 +176,10 @@ $$
 总结：
 Machine Learning is so simple:
 * Step1: function with unkown
-* Step2: define loss from training data
+* Step2: define loss from training data 
+    注意什么: 
+    $L$ :训练数据的Loss 
+    $L^{'}$ :未知数据的Loss
 * Step3: optimization
 
 然后，上例的结果是最令人满意的结果吗：
@@ -243,8 +246,212 @@ We need a more flexible model!
 
 ![Screen Shot 2021-12-29 at 4.23.16 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.23.16%20PM.png)
 
-即使x和y的关系，不是Piecewise Linear的Curves，可以先在曲线上取一些点，再把这些点连起来，变成一个piecewise linear 的curves，点取得越多，取的未知越合适，就越能逼近原来的曲线。
+即使x和y的关系，不是Piecewise Linear的Curves，可以先在曲线上取一些点，再把这些点连起来，变成一个piecewise linear 的curves，点取得越多，取的位置越合适，就越能逼近原来的曲线。
 
 ![Screen Shot 2021-12-29 at 4.29.40 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-29%20at%204.29.40%20PM.png)
 
-p3 08:14
+b站弹幕说：
+多次样条插值
+每个蓝色function就是一个神经元？  
+
+这个蓝色function，它的式子，要怎么把它写出来呢？
+直接写也许没那么容易，但是你可以用一条曲线来理解它，用sigmoid的function
+$$
+\begin{aligned}
+y&=c\frac{1}{1+e^{-(b+wx_1)}} \\
+ &=c\,sigmoid(b+wx_1)
+\end{aligned}
+$$
+
+x趋于无穷大时，曲线会收敛在高度是c的地方  
+x趋于无穷小时，曲线会趋于0  
+
+sigmoid：硬翻成中文，就是“s型的”
+
+可以用sigmoid去逼近蓝色function，所以蓝色function也叫做Hard Sigmoid。
+
+![Screen Shot 2021-12-30 at 11.12.13 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-30%20at%2011.12.13%20AM.png)
+
+各种各样的sigmoid，是通过调整b、w、c来得到的
+
+![Screen Shot 2021-12-30 at 11.15.30 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-30%20at%2011.15.30%20AM.png)
+
+所以，知道不同的蓝色function（用sigmoid近似），把它们叠起来，就构成了红色的Piecewise Linear Curves,就可以去逼近各式各样的不同的Continuous Function。  
+所以，到此处，我们已经有能力写出一个有弹性的有未知参数的function
+
+![Screen Shot 2021-12-30 at 11.22.07 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-30%20at%2011.22.07%20AM.png)
+
+# New Model: More Features
+
+$$
+y=b+wx_1\\
+\downarrow \\
+y=b+\sum_{i}c_i\,sigmoid(b_i+w_ix_1)\\
+\\
+y=b+\sum_jw_jx_j \ \ \ \ 考虑多个feature\\
+\downarrow \\
+y=b+\sum_ic_i\,sigmoid(b_i+\sum_jw_{ij}x_j)
+$$
+
+<hr>
+
+上式好复杂，来理解下：
+首先假设只有三个feature,即j:1,2,3，只考虑前面三天的case
+j是number of features
+x1:一天前的观看人数
+x2:两天前的观看人数
+x3:三天前的观看人数
+
+i是什么，每一个i代表一个蓝色function,每一个蓝色function都用一个sigmoid function来近似它。所以每一个i都代表了一个sigmoid function
+
+
+
+$$
+y = b+\sum_jc_i\,sigmoid(b_i+\sum_jw_{ij}x_j)\ \ \ j:1,2,3
+$$
+
+![Screen Shot 2021-12-30 at 2.17.10 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-30%20at%202.17.10%20PM.png)
+
+那这个x1 x2 x3 和 r1 r2 r3 什么关系呢  
+可以用矩阵和向量相乘的方法写一个比较简单的简洁的写法  
+
+$$
+y=b+
+\sum_ic_i\,sigmoid(b_i+\sum_jw_{ij}x_j) \ \ \ \ i:1,2,3\ \ \ \ j:1,2,3
+$$
+括号中的
+$$
+b_i+\sum_jw_{ij}x_j
+$$
+记为r，则：
+$$
+r_1=b_1+w_{11}x_1+w_{12}x_2+w_{13}x_3\\
+r_2=b_2+w_{21}x_1+w_{22}x_2+w_{23}x_3\\
+r_3=b_3+w_{31}x_1+w_{32}x_2+w_{33}x_3\\
+\downarrow\\
+
+\left[
+\begin{matrix}
+r_1\\
+r_2\\
+r_3
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+b_1\\
+b_2\\
+b_3
+\end{matrix}
+\right]
++\left[
+\begin{matrix}
+w_{11}&w_{12}&w_{13}\\
+w_{21}&w_{22}&w_{23}\\
+w_{31}&w_{32}&w_{33}
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+x_1\\
+x_2\\
+x_3
+\end{matrix}
+\right]
+\\
+\downarrow\\
+r=b+Wx
+$$
+
+然后这些r再通过sigmoid function 得到a
+$$
+a_i=\,sigmoid(r_i)=
+\frac1{1+e^{-r_i}}
+$$
+即
+$$
+a=\sigma(r)\\
+\downarrow\\
+y=b+c^Ta
+$$
+
+![Screen Shot 2021-12-30 at 2.58.44 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-30%20at%202.58.44%20PM.png)
+
+最终：
+$$
+y=b+c^T
+\sigma(b+Wx)
+$$
+<font color="red">注意上面两个b不一样，左边是数值，右边是向量，不该用同一个字母</font>
+
+
+来明确下各参数到底是什么：
+
+![Screen Shot 2021-12-30 at 3.25.35 PM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-30%20at%203.25.35%20PM.png)
+
+一些问题：
+
+暴力搜索:系统地枚举解决方案的所有可能的候选项，以及检查每个候选项是否符合问题的描述。
+未知参数只有w,b的情况，可以用暴力搜索，但随着问题规模的增大，穷举所有可能是不现实的，要用梯度下降。  
+
+sigmoid越多，你可以产生的piecewise linear function就越复杂，
+这个例子里input feature是3个，sigmoid也是3个，这只是巧合，不必相同  
+
+hard sigmoid的function比较难写，所以用sigmoid，如果你能写出来，用hard sigmoid也可以。  
+
+<hr>
+ok,现在我们有了新的function with unkonwns
+接下来处理Loss
+现在Loss是theta的函数：
+
+$$
+L(\theta)
+$$
+
+给定某一组
+$$
+w,b,c^T,b
+$$
+的值
+
+$$
+y=b+c^T\sigma(b+Wx)\\
+\\
+\widehat{y}\ \ \ label
+\\
+\\
+e=\left|y-\widehat{y}\right| \\
+\\
+\\
+
+Loss:\ \ \ L=\frac1N\sum_ne_n
+$$
+
+<hr>
+
+Optimization of New Model
+$$
+\theta^*=\mathop{\arg\min}_{\theta}L\ \ \ \ \ \ \ \ \theta=
+\left[
+\begin{matrix}
+\theta_1\\
+\theta_2\\
+\theta_3\\
+\vdots
+\end{matrix}
+\right]
+
+$$
+
+* (Randomly)Pick initial values  $\theta^0$
+$$
+g=
+\left[
+\begin{matrix}
+\frac{\partialL}{\partial\theta_1}|_
+
+
+
+
+
