@@ -441,7 +441,6 @@ $$
 \vdots
 \end{matrix}
 \right]
-
 $$
 
 * (Randomly)Pick initial values  $\theta^0$
@@ -456,7 +455,6 @@ g=
 \vdots
 \end{matrix}
 \right]
-
 $$
 
 g即gradient
@@ -493,10 +491,153 @@ $$
 \vdots
 \end{matrix}
 \right]
+$$
 
+上式简写为：
+$$
+\theta^1 \leftarrow \theta^0 - \eta g
+$$
+
+* Compute gradient  $g=\nabla L(\theta^0)$  
+$$
+\theta^1 \leftarrow \theta^0 - \eta g
+$$
+* Compute gradient  $g=\nabla L(\theta^1)$
+$$
+\theta^2 \leftarrow \theta^1 - \eta g
+$$
+* Compute gradient  $g=\nabla L(\theta^2)$
+$$
+\theta^3 \leftarrow \theta^2 - \eta g
 $$
 
 
-p3 35:21
+照此做下去，直到不想做了，或者直到g算出来是0向量 (Zero Vector)，不过
+在实际操作中几乎不太可能作出Gradient是0向量的结果，通常你停下来只是因为你不想做了。  
+
+实际操作中，我们这样做gradient descent：
+1  有N笔资料，把它分成一个个batch，怎么分？随机分就好
+2  分完后每个batch里有B笔资料
+3  本来是把所有的Data拿出来算一个Loss（L），但现在我们只拿出第一个batch里的data出来算一个Loss（$L^1$）
+4  试想，假设这个B够大，也许L跟$L^1$很接近也说不定
+5  实作中，会先选一个batch，用这个batch来算$L^1$，用这个$L^1$来算gradient:$g=\nabla L^1(\theta^0)$，用这个gradient来更新参数：
+$$
+\theta^1 \leftarrow \theta^0 - \eta g
+$$
+6  接下来，再选下一个batch算出$L^2$,根据$L^2$算出gradient $g=\nabla L^2(\theta^1)$，再更新参数：
+$$
+\theta^2 \leftarrow \theta^1 - \eta g
+$$
+7  再取下一个batch算出$L^3$，根据$L^3$算出gradient，$g=\nabla L^3(\theta^2)$, 再更新参数
+
+$$
+\theta^3 \leftarrow \theta^2 - \eta g
+$$
+
+8 所以我们不是拿L来算gradient，实际上是拿一个batch算出来的$L^1,L^2,L^3$来计算gradient
+
+9 把所有batch都看过一次，叫做一个Epoch，每一次更新参数叫做一次Update，
+    1 epoch = see all the batches once  
+
+10 至于为什么要分一个个batch，下周再讲nice
+
+![Screen Shot 2021-12-31 at 9.26.42 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%209.26.42%20AM.png)
+
+为了更好地区分epoch和update，这里举一个栗子🌰
+Example 1:
+* 10000 examples (N=10000)
+* Batch size is 10 (B=10)
+How many update in 1 epoch?  (epoch就如同游戏里的周目）
+                1000 updates 
+所以一个epoch并不是更新参数一次，上栗一个epoch更新参数1000次  
+
+Example 2
+* 1000 examples (N=1000)
+* Batch size is 100 (B=100) （Batch size的大小也是人为决定的，也是hyper parameter）
+<hr>
+插入：所以到目前为止都有啥是hyper parameter:  <br>
+learning rate $\eta$ <br>
+几个sigmoid <br>
+batch size <br>
+<hr>
+How many update in 1 epoch
+                 10 updates
+
+所以如果有人跟你说做了一个epoch的训练，你其实并不知道他更新了几次参数。拒绝于总样本数和batch size。
+
+我们还可以对模型做更多的变形：
+
+Sigmoid $\rightarrow$ ReLU
+
+hard sigmoid 不好吗，为什么要把它换成soft sigmoid,不一定要换成soft sigmoid 还有其他选择。
+比如，hard sigmoid函数有点难写出来，其实也没有那么难，它可以看作是两个Rectified Linear Unit的加合。
+Rectified Linear Unit:
+$$
+c\,max(0,b+wx_1)
+$$
+两个ReLu叠加起来就可以变成hard sigmoid  
+
+![Screen Shot 2021-12-31 at 9.56.15 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%209.56.15%20AM.png)
+
+所以，可以把sigmoid换成ReLU
+$$
+Sigmoid \rightarrow ReLU \\
+\\
+y = b + \sum_ic_i\,sigmoid(b_i + \sum_jw_{ij}x_j)\\
+\\
+\downarrow
+\\
+y = b + \sum_{2i}c_i\,max(0,b_i + \sum_jw_{ij}x_j)
+$$
+
+
+![Screen Shot 2021-12-31 at 10.04.07 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.04.07%20AM.png)
+
+类似sigmoid ReLU 叫做 activation function 激活函数
+
+sigmoid 和ReLU 哪个更好？
+ReLU更好，后面讲  
+
+来看看实际结果：100个ReLU就可以制造比较复杂的曲线，效果就显现出来了，但1000个ReLU改进就没有那么大了：
+
+![Screen Shot 2021-12-31 at 10.08.54 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.08.54%20AM.png)
+
+还可以怎么改进我们的模型呢，举例来说，如下图，之前说过从x到a做的事情是什么？是把x乘上w加上b，再通过sigmoid function（通过ReLU也可以）得到a  
+我们可以把上面这件事反复多做几次，x通过一连串运算产生a，a通过一连串运算产生a',可以这样反复多做几次  
+
+那么要做几次？这个做几次又是一个hyper parameter  
+
+![Screen Shot 2021-12-31 at 10.18.50 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.18.50%20AM.png)
+
+Experimental Results  
+* Loss for multiple hidden layers
+    * 100 ReLU for each layer
+    * input features are the no. of views in the past 56 days
+
+
+![Screen Shot 2021-12-31 at 10.23.10 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.23.10%20AM.png)
+
+![Screen Shot 2021-12-31 at 10.28.45 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.28.45%20AM.png)
+
+红圈为啥没有报出低值，那天是除夕，众所周知，过年不学机器学习，而模型不了解除夕是个什么玩意，它只懂每56天的变化规律。
+
+好了，现在我们还缺了一个东西：a fancy name   
+织席贩履之徒，说他是汉左将军宜城亭侯中山靖王之后，也就潮了起来，  
+所以我们的模型也需要一个好名字  
+
+这些sigmoid ReLU啊 叫做 Neuron 神经元，很多的Neuron 组成 Neural Networ 神经网络  
+
+Neural Network 80 90 年代就有 被玩到 臭大街  
+
+为了重振 Neural Network的雄风，需要起个新的名字，有很多hidden layer 就叫做Deep  $\rightarrow$ Deep Learning  
+
+然后人们就开始把类神经网络越叠越多，越叠越深，
+
+![Screen Shot 2021-12-31 at 10.49.24 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.49.24%20AM.png)
+
+这里有个问题，用足够多的sigmoid 或者 ReLU 排一排（1 hidden layer）就可以逼近任何复杂的连续函数，搞多层，搞deep的意义何在？所以有人说deep learning 只是个噱头  
+把sigmoid ReLU排一排，构造一个fat neural network不行吗，为啥要搞deep neural network?  
+
+p3 53:15
 
 
