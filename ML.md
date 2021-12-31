@@ -636,8 +636,18 @@ Neural Network 80 90 年代就有 被玩到 臭大街
 ![Screen Shot 2021-12-31 at 10.49.24 AM](https://raw.githubusercontent.com/lunnche/picgo-image/main/Screen%20Shot%202021-12-31%20at%2010.49.24%20AM.png)
 
 这里有个问题，用足够多的sigmoid 或者 ReLU 排一排（1 hidden layer）就可以逼近任何复杂的连续函数，搞多层，搞deep的意义何在？所以有人说deep learning 只是个噱头  
-把sigmoid ReLU排一排，构造一个fat neural network不行吗，为啥要搞deep neural network?  
+把sigmoid ReLU排一排，构造一个fat neural network不行吗，为啥要搞deep neural network?  以后再讲  
 
-p3 53:15
+另一个为题，为何不做得更深？上例为何只搞3层，不稿100层？因为发现到4 layer的时候，已知数据Loss虽然从0.14k减少为0.10k，但未知数据的Loss从0.38k增加到0.44k  
+Better on training data,worse on unseen data  
+这就是 overfitting  
+
+所以，以上就是深度学习的介绍，介绍的形式比较特殊  
+想看一般形式的介绍： https://youtu.be/Dr-WRIEFefw  
+
+深度学习的训练会用到一个东西叫做 backpropagation  
+https://youtu.be/ibJpTrp5mcE  
+
+
 
 
