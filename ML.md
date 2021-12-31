@@ -648,6 +648,6 @@ Better on training data,worse on unseen data
 深度学习的训练会用到一个东西叫做 backpropagation  
 https://youtu.be/ibJpTrp5mcE  
 
-
+p3 结束
 
 
