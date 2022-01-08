@@ -1,17 +1,23 @@
 
 三条并行路线
 
-1 全栈工程师(前端、后端）-> 计算机科学家（ 一切）
+1 全栈工程师
 
-   从哪里开始： 技术胖前端路线图
+   codecademy Full-Stack Engineer path
 
 2 人工智能
 
-   从哪里开始：李宏毅机器学习2021
+   李宏毅机器学习2021
 
 3 数学 
 
-   从哪里开始：麻省理工-微积分重点18讲-Gilbert Strang
+   Linear Algebra -Gilbert Strang
+
+4 网络是怎样连接的  
+
+5 自控力  
+
+
 
 
 
