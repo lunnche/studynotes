@@ -9,9 +9,11 @@ codecademy Full-Stack Engineer path
 3 数学 
 Linear Algebra -Gilbert Strang
 
-4 网络是怎样连接的  
+4 ocw
 
-5 charles bodybuilding  
+5 humanity plus
+
+6 charles bodybuilding  
 
 工作：
 
@@ -41,8 +43,14 @@ Linear Algebra -Gilbert Strang
 
 记录一周的完成任务   
 
-1月15日
-看完 李宏毅 backpropogation 
 
+周计划就是： 
 
+4个课时的coding
+4个课时的ml
+4个课时的math linear algebra
+4个课时的ocw  
+4个课时的humanity plus
+
+每天30器械 40有氧
 
