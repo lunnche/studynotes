@@ -54,6 +54,6 @@ Linear Algebra -Gilbert Strang
 每天30器械 40有氧
 
 第一周 全栈4 ml2 math2 ocw2 总10
-第二周 1.31-2.6 全栈7  ml2  math5   ocw5  总19
-第三周 2.7-2.13 全栈   ml   math    ocw   总
-
+第二周 1.31-2.6  全栈7  ml2  math5   ocw5  总19
+第三周 2.7-2.13  全栈5  ml3  math6   ocw2  总16
+第四周 2.14-2.20 全栈   ml   math    ocw   总
