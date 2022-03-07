@@ -58,6 +58,8 @@ Linear Algebra -Gilbert Strang
 第三周 2.7-2.13  全栈5  ml3  math6   ocw2  总16
 第四周 2.14-2.20 全栈3  ml5  math3   ocw0  总11
 第五周 2.21-2.27 全栈1  ml0  math0   ocw0  总1 Qjt耽误了
-第六周 2.28-3.6  全栈   ml   math    ocw   总
+第六周 2.28-3.6  全栈2  ml4  math0   ocw0  总6 健身耽误了
+第七周 3.7-3.13  全栈  ml  math  ocw 
+
 
 
